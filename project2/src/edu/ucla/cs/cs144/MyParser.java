@@ -242,10 +242,10 @@ class MyParser {
 			        catch(ParseException pe) {
 			            System.out.println("ERROR: Cannot parse \"" + ends + "\"");
 			        }
-					System.out.println(item_id+","+"\""+name+"\""+","+currently+","+buy_price+","+first_bid+","+number_of_bids+","+"\""+discription+"\""+","+started+","+ends);
+					//System.out.println(item_id+","+"\""+name+"\""+","+currently+","+buy_price+","+first_bid+","+number_of_bids+","+"\""+discription+"\""+","+started+","+ends);
 				
 					/*ItemID Category********************************************************************/
-			/*		
+					
 					int length = eElement.getElementsByTagName("Category").getLength();
 					int temp = 0;
 					while(temp<length)
@@ -253,7 +253,7 @@ class MyParser {
 						System.out.println(eElement.getAttribute("ItemID")+ "," +"\"" +eElement.getElementsByTagName("Category").item(temp).getTextContent()+"\"");
 						temp++;
 					}
-			*/		
+					
 					/*Seller********************************************************************/
 					
 					Element subeElement = (Element) eElement.getElementsByTagName("Seller").item(0);	
