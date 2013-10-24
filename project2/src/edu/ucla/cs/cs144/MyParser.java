@@ -185,7 +185,13 @@ class MyParser {
         /* At this point 'doc' contains a DOM representation of an 'Items' XML
          * file. Use doc.getDocumentElement() to get the root Element. */
         System.out.println("Successfully parsed - " + xmlFile);
-
+try {
+	PrintWriter writer_user = new PrintWriter("user.txt", "UTF-8");
+	PrintWriter writer_bids = new PrintWriter("bids.txt", "UTF-8");
+	PrintWriter writer_id_category = new PrintWriter("id_category.txt", "UTF-8");
+	PrintWriter writer_item = new PrintWriter("item.txt", "UTF-8");
+	
+	
 	SimpleDateFormat format = new SimpleDateFormat("MMM-dd-yy H:m:s");
 	SimpleDateFormat newformat = new SimpleDateFormat("yyyy-MM-dd HH:m:s");
         
@@ -194,11 +200,12 @@ class MyParser {
 	
 	   org.w3c.dom.NodeList nList = doc.getElementsByTagName("Item");
 	
-	   System.out.println("Item id,Name,Currently,Buy_Price,First_Bid,Number_of_Bids,Description,Started,Ends : ");   
+//	   System.out.println("Item id,Name,Currently,Buy_Price,First_Bid,Number_of_Bids,Description,Started,Ends,Seller");   
 //	   	System.out.println("Item id,Category : ");
 //	System.out.println("UserID,Rating,Country,Location : ");
 //	System.out.println("Item id,UserID,Time,Amount");
-	
+	   Hashtable user_hashtable = new Hashtable();
+	   
 
 	   for (int i = 0; i < nList.getLength(); i++) {
 //		for (int i = 0; i < 1; i++) {
@@ -218,6 +225,7 @@ class MyParser {
 					String discription = "";
 					String started = "";
 					String ends = "";
+					String seller = "";
 				    item_id = eElement.getAttribute("ItemID");
 				    name = eElement.getElementsByTagName("Name").item(0).getTextContent().replace("\"","\\\"");
 				    currently = eElement.getElementsByTagName("Currently").item(0).getTextContent().replace("$","");
@@ -227,6 +235,11 @@ class MyParser {
 					number_of_bids = eElement.getElementsByTagName("Number_of_Bids").item(0).getTextContent();
 					discription = eElement.getElementsByTagName("Description").item(0).getTextContent().replace("\"","\\\"");
 					started = eElement.getElementsByTagName("Started").item(0).getTextContent();
+					
+					Element subeElement = (Element) eElement.getElementsByTagName("Seller").item(0);	
+					
+					seller = subeElement.getAttribute("UserID");
+					
 					try {
 			            Date parsed = format.parse(started);
 			            started = newformat.format(parsed);
@@ -242,7 +255,7 @@ class MyParser {
 			        catch(ParseException pe) {
 			            System.out.println("ERROR: Cannot parse \"" + ends + "\"");
 			        }
-					//System.out.println(item_id+","+"\""+name+"\""+","+currently+","+buy_price+","+first_bid+","+number_of_bids+","+"\""+discription+"\""+","+started+","+ends);
+					writer_item.println(item_id+","+"\""+name+"\""+","+currently+","+buy_price+","+first_bid+","+number_of_bids+","+"\""+discription+"\""+","+started+","+ends+","+"\""+seller+"\"");
 				
 					/*ItemID Category********************************************************************/
 					
@@ -250,15 +263,15 @@ class MyParser {
 					int temp = 0;
 					while(temp<length)
 					{
-					//	System.out.println(eElement.getAttribute("ItemID")+ "," +"\"" +eElement.getElementsByTagName("Category").item(temp).getTextContent()+"\"");
+						writer_id_category.println(eElement.getAttribute("ItemID")+ "," +"\"" +eElement.getElementsByTagName("Category").item(temp).getTextContent()+"\"");
 						temp++;
 					}
 					
 					/*Seller********************************************************************/
 					
-					Element subeElement = (Element) eElement.getElementsByTagName("Seller").item(0);	
-					//System.out.println( subeElement.getAttribute("UserID")+","+subeElement.getAttribute("Rating")+","+"\""+eElement.getElementsByTagName("Country").item(0).getTextContent()+"\""+","+"\""+eElement.getElementsByTagName("Location").item(0).getTextContent()+"\"");
 					
+				
+					user_hashtable.put(seller,","+subeElement.getAttribute("Rating")+","+"\""+eElement.getElementsByTagName("Country").item(0).getTextContent()+"\""+","+"\""+eElement.getElementsByTagName("Location").item(0).getTextContent()+"\"");
 					//in output file remove duplicates
 					
 						
@@ -279,7 +292,7 @@ class MyParser {
 						        catch(ParseException pe) {
 						            System.out.println("ERROR: Cannot parse \"" + time + "\"");
 						        }
-							//	System.out.println(eElement.getAttribute("ItemID")+","+bid_subeElement.getAttribute("UserID")+","+time+","+bid_eElement.getElementsByTagName("Amount").item(0).getTextContent().replace("$",""));
+							writer_bids.println(eElement.getAttribute("ItemID")+","+bid_subeElement.getAttribute("UserID")+","+time+","+bid_eElement.getElementsByTagName("Amount").item(0).getTextContent().replace("$",""));
 					   			
 					/*Bidder********************************************************************/ 	
 					
@@ -290,14 +303,31 @@ class MyParser {
 						if(bid_eElement.getElementsByTagName("Location").getLength()==1)
 						    location = bid_eElement.getElementsByTagName("Location").item(0).getTextContent();
 					//	System.out.println(bid_subeElement.getAttribute("UserID")+","+bid_subeElement.getAttribute("Rating")+","+"\""+country+"\""+","+"\""+location+"\"");
-					
+						user_hashtable.put(bid_subeElement.getAttribute("UserID"),","+bid_subeElement.getAttribute("Rating")+","+"\""+country+"\""+","+"\""+location+"\"");
 							}
 							
 								
 				}
 		}
-	   
+		
+		Enumeration names;
+	    String str;
+		names = user_hashtable.keys();
+		      while(names.hasMoreElements()) {
+		         str = (String) names.nextElement();
+		         writer_user.println(str + user_hashtable.get(str));
+		      }
+		
+
        //System.out.println("\nCurrent Element :" + nNode.getNodeName());
+				
+		writer_user.close();
+		writer_bids.close();
+		writer_id_category.close();
+		writer_item.close();
+	} catch (IOException ex){
+	  // report
+	}	
         
     }
     
