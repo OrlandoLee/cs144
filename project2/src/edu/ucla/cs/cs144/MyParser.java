@@ -40,6 +40,12 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.ErrorHandler;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
+import java.util.Date;
+
+
 
 class MyParser {
     
@@ -179,11 +185,21 @@ class MyParser {
         /* At this point 'doc' contains a DOM representation of an 'Items' XML
          * file. Use doc.getDocumentElement() to get the root Element. */
         System.out.println("Successfully parsed - " + xmlFile);
+
+	SimpleDateFormat format = new SimpleDateFormat("MMM-dd-yy H:m:s");
+	SimpleDateFormat newformat = new SimpleDateFormat("yyyy-MM-dd HH:m:s");
         
         /* Fill in code here (you will probably need to write auxiliary
             methods). */
 	
 	   org.w3c.dom.NodeList nList = doc.getElementsByTagName("Item");
+	
+//	   System.out.println("Item id,Name,Currently,Buy_Price,First_Bid,Number_of_Bids,Description,Started,Ends : ");   
+//	   	System.out.println("Item id,Category : ");
+//	System.out.println("UserID,Rating,Country,Location : ");
+	System.out.println("Item id,UserID,Time,Amount");
+	
+
 	   for (int i = 0; i < nList.getLength(); i++) {
 //		for (int i = 0; i < 1; i++) {
 		Node nNode = nList.item(i);
@@ -192,7 +208,7 @@ class MyParser {
 					Element eElement = (Element) nNode;
 				
 					/*Item table********************************************************************/
-					/*
+			/*		
 					String item_id = "";
 					String name = "";
 					String currently = "";
@@ -211,38 +227,62 @@ class MyParser {
 					number_of_bids = eElement.getElementsByTagName("Number_of_Bids").item(0).getTextContent();
 					discription = eElement.getElementsByTagName("Description").item(0).getTextContent();
 					started = eElement.getElementsByTagName("Started").item(0).getTextContent();
+					try {
+			            Date parsed = format.parse(started);
+			            started = newformat.format(parsed);
+			        }
+			        catch(ParseException pe) {
+			            System.out.println("ERROR: Cannot parse \"" + started + "\"");
+			        }
 					ends = eElement.getElementsByTagName("Ends").item(0).getTextContent();
-					System.out.println("Item id,Name,Currently,Buy_Price,First_Bid,Number_of_Bids,Description,Started,Ends : " +item_id+","+"\""+name+"\""+","+currently+","+first_bid+","+number_of_bids+","+started+","+ends);
-					*/
+					try {
+			            Date parsed = format.parse(ends);
+			            ends = newformat.format(parsed);
+			        }
+			        catch(ParseException pe) {
+			            System.out.println("ERROR: Cannot parse \"" + ends + "\"");
+			        }
+					System.out.println(item_id+","+"\""+name+"\""+","+currently+","+first_bid+","+number_of_bids+","+started+","+ends);
+			*/
+			//		System.out.println("Item id,Name,Currently,Buy_Price,First_Bid,Number_of_Bids,Description,Started,Ends : " +item_id+","+"\""+name+"\""+","+currently+","+first_bid+","+number_of_bids+","+started+","+ends);
 					
 					/*ItemID Category********************************************************************/
-					/*
+			/*		
 					int length = eElement.getElementsByTagName("Category").getLength();
 					int temp = 0;
 					while(temp<length)
 					{
-						System.out.println("Item id,Category : " +eElement.getAttribute("ItemID")+ "," +"\"" +eElement.getElementsByTagName("Category").item(temp).getTextContent()+"\"");
+						System.out.println(eElement.getAttribute("ItemID")+ "," +"\"" +eElement.getElementsByTagName("Category").item(temp).getTextContent()+"\"");
 						temp++;
 					}
-					*/
+			*/		
 					/*Seller********************************************************************/
-					/*
+					
 					Element subeElement = (Element) eElement.getElementsByTagName("Seller").item(0);	
-					System.out.println("UserID,Rating,Country,Location : " + subeElement.getAttribute("UserID")+","+subeElement.getAttribute("Rating")+","+"\""+eElement.getElementsByTagName("Country").item(0).getTextContent()+"\""+","+"\""+eElement.getElementsByTagName("Location").item(0).getTextContent()+"\"");
-					*/
+				//	System.out.println( subeElement.getAttribute("UserID")+","+subeElement.getAttribute("Rating")+","+"\""+eElement.getElementsByTagName("Country").item(0).getTextContent()+"\""+","+"\""+eElement.getElementsByTagName("Location").item(0).getTextContent()+"\"");
+					
 					//in output file remove duplicates
 					
-					
-					
+						
+						
+						/*Bids********************************************************************/
+						
 						org.w3c.dom.NodeList bidList = getElementByTagNameNR(eElement,"Bids").getElementsByTagName("Bid");
 						for (int bid_i = 0; bid_i < bidList.getLength(); bid_i++) {
 								Node bid_nNode = bidList.item(bid_i);
 								Element bid_eElement = (Element) bid_nNode;
 								Element bid_subeElement = (Element) bid_eElement.getElementsByTagName("Bidder").item(0);
-								//date money format still needs to be done
-								/*Bids********************************************************************/
-								System.out.println("Item id,UserID,Time,Amount : " + eElement.getAttribute("ItemID")+","+bid_subeElement.getAttribute("UserID")+","+bid_eElement.getElementsByTagName("Time").item(0).getTextContent()+","+bid_eElement.getElementsByTagName("Amount").item(0).getTextContent());
 								
+								String time = bid_eElement.getElementsByTagName("Time").item(0).getTextContent();
+								try {
+						            Date parsed = format.parse(time);
+						            time = newformat.format(parsed);
+						        }
+						        catch(ParseException pe) {
+						            System.out.println("ERROR: Cannot parse \"" + time + "\"");
+						        }
+								System.out.println(eElement.getAttribute("ItemID")+","+bid_subeElement.getAttribute("UserID")+","+time+","+bid_eElement.getElementsByTagName("Amount").item(0).getTextContent());
+					   			
 					/*Bidder********************************************************************/ 	
 					
 						String location = "";
@@ -251,7 +291,7 @@ class MyParser {
 							country = bid_eElement.getElementsByTagName("Country").item(0).getTextContent();
 						if(bid_eElement.getElementsByTagName("Location").getLength()==1)
 						    location = bid_eElement.getElementsByTagName("Location").item(0).getTextContent();
-						System.out.println("UserID, Rating, Country, Location: " + bid_subeElement.getAttribute("UserID")+","+bid_subeElement.getAttribute("Rating")+","+"\""+country+"\""+","+"\""+location+"\"");
+					//	System.out.println(bid_subeElement.getAttribute("UserID")+","+bid_subeElement.getAttribute("Rating")+","+"\""+country+"\""+","+"\""+location+"\"");
 					
 							}
 							
