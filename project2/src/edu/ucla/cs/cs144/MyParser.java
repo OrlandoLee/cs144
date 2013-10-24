@@ -242,10 +242,8 @@ class MyParser {
 			        catch(ParseException pe) {
 			            System.out.println("ERROR: Cannot parse \"" + ends + "\"");
 			        }
-					System.out.println(item_id+","+"\""+name+"\""+","+currently+","+first_bid+","+number_of_bids+","+started+","+ends);
-			
-			//		System.out.println("Item id,Name,Currently,Buy_Price,First_Bid,Number_of_Bids,Description,Started,Ends : " +item_id+","+"\""+name+"\""+","+currently+","+first_bid+","+number_of_bids+","+started+","+ends);
-					
+					System.out.println(item_id+","+"\""+name+"\""+","+currently+","+buy_price+","+first_bid+","+number_of_bids+","+"\""+discription+"\""+","+started+","+ends);
+				
 					/*ItemID Category********************************************************************/
 			/*		
 					int length = eElement.getElementsByTagName("Category").getLength();
