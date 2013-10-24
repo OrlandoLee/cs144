@@ -220,10 +220,10 @@ class MyParser {
 					String ends = "";
 				    item_id = eElement.getAttribute("ItemID");
 				    name = eElement.getElementsByTagName("Name").item(0).getTextContent().replace("\"","\\\"");
-				    currently = eElement.getElementsByTagName("Currently").item(0).getTextContent();
+				    currently = eElement.getElementsByTagName("Currently").item(0).getTextContent().replace("$","");
 				    if (eElement.getElementsByTagName("Buy_Price").getLength()==1)
-				    buy_price = eElement.getElementsByTagName("Buy_Price").item(0).getTextContent();
-					first_bid = eElement.getElementsByTagName("First_Bid").item(0).getTextContent();
+				    buy_price = eElement.getElementsByTagName("Buy_Price").item(0).getTextContent().replace("$","");
+					first_bid = eElement.getElementsByTagName("First_Bid").item(0).getTextContent().replace("$","");
 					number_of_bids = eElement.getElementsByTagName("Number_of_Bids").item(0).getTextContent();
 					discription = eElement.getElementsByTagName("Description").item(0).getTextContent().replace("\"","\\\"");
 					started = eElement.getElementsByTagName("Started").item(0).getTextContent();
@@ -279,7 +279,7 @@ class MyParser {
 						        catch(ParseException pe) {
 						            System.out.println("ERROR: Cannot parse \"" + time + "\"");
 						        }
-								System.out.println(eElement.getAttribute("ItemID")+","+bid_subeElement.getAttribute("UserID")+","+time+","+bid_eElement.getElementsByTagName("Amount").item(0).getTextContent());
+								System.out.println(eElement.getAttribute("ItemID")+","+bid_subeElement.getAttribute("UserID")+","+time+","+bid_eElement.getElementsByTagName("Amount").item(0).getTextContent().replace("$",""));
 				*/	   			
 					/*Bidder********************************************************************/ 	
 				/*	
