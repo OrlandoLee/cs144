@@ -250,21 +250,21 @@ class MyParser {
 					int temp = 0;
 					while(temp<length)
 					{
-						System.out.println(eElement.getAttribute("ItemID")+ "," +"\"" +eElement.getElementsByTagName("Category").item(temp).getTextContent()+"\"");
+					//	System.out.println(eElement.getAttribute("ItemID")+ "," +"\"" +eElement.getElementsByTagName("Category").item(temp).getTextContent()+"\"");
 						temp++;
 					}
 					
 					/*Seller********************************************************************/
 					
 					Element subeElement = (Element) eElement.getElementsByTagName("Seller").item(0);	
-				//	System.out.println( subeElement.getAttribute("UserID")+","+subeElement.getAttribute("Rating")+","+"\""+eElement.getElementsByTagName("Country").item(0).getTextContent()+"\""+","+"\""+eElement.getElementsByTagName("Location").item(0).getTextContent()+"\"");
+					System.out.println( subeElement.getAttribute("UserID")+","+subeElement.getAttribute("Rating")+","+"\""+eElement.getElementsByTagName("Country").item(0).getTextContent()+"\""+","+"\""+eElement.getElementsByTagName("Location").item(0).getTextContent()+"\"");
 					
 					//in output file remove duplicates
 					
 						
 						
 						/*Bids********************************************************************/
-			/*			
+						
 						org.w3c.dom.NodeList bidList = getElementByTagNameNR(eElement,"Bids").getElementsByTagName("Bid");
 						for (int bid_i = 0; bid_i < bidList.getLength(); bid_i++) {
 								Node bid_nNode = bidList.item(bid_i);
@@ -279,19 +279,19 @@ class MyParser {
 						        catch(ParseException pe) {
 						            System.out.println("ERROR: Cannot parse \"" + time + "\"");
 						        }
-								System.out.println(eElement.getAttribute("ItemID")+","+bid_subeElement.getAttribute("UserID")+","+time+","+bid_eElement.getElementsByTagName("Amount").item(0).getTextContent().replace("$",""));
-				*/	   			
+							//	System.out.println(eElement.getAttribute("ItemID")+","+bid_subeElement.getAttribute("UserID")+","+time+","+bid_eElement.getElementsByTagName("Amount").item(0).getTextContent().replace("$",""));
+					   			
 					/*Bidder********************************************************************/ 	
-				/*	
+					
 						String location = "";
 						String country = "";
 						if(bid_eElement.getElementsByTagName("Country").getLength()==1)
 							country = bid_eElement.getElementsByTagName("Country").item(0).getTextContent();
 						if(bid_eElement.getElementsByTagName("Location").getLength()==1)
 						    location = bid_eElement.getElementsByTagName("Location").item(0).getTextContent();
-					//	System.out.println(bid_subeElement.getAttribute("UserID")+","+bid_subeElement.getAttribute("Rating")+","+"\""+country+"\""+","+"\""+location+"\"");
+						System.out.println(bid_subeElement.getAttribute("UserID")+","+bid_subeElement.getAttribute("Rating")+","+"\""+country+"\""+","+"\""+location+"\"");
 					
-							}*/
+							}
 							
 								
 				}
