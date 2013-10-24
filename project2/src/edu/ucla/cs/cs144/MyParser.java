@@ -257,7 +257,7 @@ class MyParser {
 					/*Seller********************************************************************/
 					
 					Element subeElement = (Element) eElement.getElementsByTagName("Seller").item(0);	
-					System.out.println( subeElement.getAttribute("UserID")+","+subeElement.getAttribute("Rating")+","+"\""+eElement.getElementsByTagName("Country").item(0).getTextContent()+"\""+","+"\""+eElement.getElementsByTagName("Location").item(0).getTextContent()+"\"");
+					//System.out.println( subeElement.getAttribute("UserID")+","+subeElement.getAttribute("Rating")+","+"\""+eElement.getElementsByTagName("Country").item(0).getTextContent()+"\""+","+"\""+eElement.getElementsByTagName("Location").item(0).getTextContent()+"\"");
 					
 					//in output file remove duplicates
 					
@@ -289,7 +289,7 @@ class MyParser {
 							country = bid_eElement.getElementsByTagName("Country").item(0).getTextContent();
 						if(bid_eElement.getElementsByTagName("Location").getLength()==1)
 						    location = bid_eElement.getElementsByTagName("Location").item(0).getTextContent();
-						System.out.println(bid_subeElement.getAttribute("UserID")+","+bid_subeElement.getAttribute("Rating")+","+"\""+country+"\""+","+"\""+location+"\"");
+					//	System.out.println(bid_subeElement.getAttribute("UserID")+","+bid_subeElement.getAttribute("Rating")+","+"\""+country+"\""+","+"\""+location+"\"");
 					
 							}
 							
