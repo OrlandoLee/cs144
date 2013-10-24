@@ -194,10 +194,10 @@ class MyParser {
 	
 	   org.w3c.dom.NodeList nList = doc.getElementsByTagName("Item");
 	
-//	   System.out.println("Item id,Name,Currently,Buy_Price,First_Bid,Number_of_Bids,Description,Started,Ends : ");   
+	   System.out.println("Item id,Name,Currently,Buy_Price,First_Bid,Number_of_Bids,Description,Started,Ends : ");   
 //	   	System.out.println("Item id,Category : ");
 //	System.out.println("UserID,Rating,Country,Location : ");
-	System.out.println("Item id,UserID,Time,Amount");
+//	System.out.println("Item id,UserID,Time,Amount");
 	
 
 	   for (int i = 0; i < nList.getLength(); i++) {
@@ -208,7 +208,7 @@ class MyParser {
 					Element eElement = (Element) nNode;
 				
 					/*Item table********************************************************************/
-			/*		
+					
 					String item_id = "";
 					String name = "";
 					String currently = "";
@@ -219,13 +219,13 @@ class MyParser {
 					String started = "";
 					String ends = "";
 				    item_id = eElement.getAttribute("ItemID");
-				    name = eElement.getElementsByTagName("Name").item(0).getTextContent();
+				    name = eElement.getElementsByTagName("Name").item(0).getTextContent().replace("\"","\\\"");
 				    currently = eElement.getElementsByTagName("Currently").item(0).getTextContent();
 				    if (eElement.getElementsByTagName("Buy_Price").getLength()==1)
 				    buy_price = eElement.getElementsByTagName("Buy_Price").item(0).getTextContent();
 					first_bid = eElement.getElementsByTagName("First_Bid").item(0).getTextContent();
 					number_of_bids = eElement.getElementsByTagName("Number_of_Bids").item(0).getTextContent();
-					discription = eElement.getElementsByTagName("Description").item(0).getTextContent();
+					discription = eElement.getElementsByTagName("Description").item(0).getTextContent().replace("\"","\\\"");
 					started = eElement.getElementsByTagName("Started").item(0).getTextContent();
 					try {
 			            Date parsed = format.parse(started);
@@ -243,7 +243,7 @@ class MyParser {
 			            System.out.println("ERROR: Cannot parse \"" + ends + "\"");
 			        }
 					System.out.println(item_id+","+"\""+name+"\""+","+currently+","+first_bid+","+number_of_bids+","+started+","+ends);
-			*/
+			
 			//		System.out.println("Item id,Name,Currently,Buy_Price,First_Bid,Number_of_Bids,Description,Started,Ends : " +item_id+","+"\""+name+"\""+","+currently+","+first_bid+","+number_of_bids+","+started+","+ends);
 					
 					/*ItemID Category********************************************************************/
@@ -266,7 +266,7 @@ class MyParser {
 						
 						
 						/*Bids********************************************************************/
-						
+			/*			
 						org.w3c.dom.NodeList bidList = getElementByTagNameNR(eElement,"Bids").getElementsByTagName("Bid");
 						for (int bid_i = 0; bid_i < bidList.getLength(); bid_i++) {
 								Node bid_nNode = bidList.item(bid_i);
@@ -282,9 +282,9 @@ class MyParser {
 						            System.out.println("ERROR: Cannot parse \"" + time + "\"");
 						        }
 								System.out.println(eElement.getAttribute("ItemID")+","+bid_subeElement.getAttribute("UserID")+","+time+","+bid_eElement.getElementsByTagName("Amount").item(0).getTextContent());
-					   			
+				*/	   			
 					/*Bidder********************************************************************/ 	
-					
+				/*	
 						String location = "";
 						String country = "";
 						if(bid_eElement.getElementsByTagName("Country").getLength()==1)
@@ -293,7 +293,7 @@ class MyParser {
 						    location = bid_eElement.getElementsByTagName("Location").item(0).getTextContent();
 					//	System.out.println(bid_subeElement.getAttribute("UserID")+","+bid_subeElement.getAttribute("Rating")+","+"\""+country+"\""+","+"\""+location+"\"");
 					
-							}
+							}*/
 							
 								
 				}
