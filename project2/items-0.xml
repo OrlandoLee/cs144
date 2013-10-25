@@ -80,7 +80,15 @@
         </Bidder>
         <Time>Dec-09-01 20:16:20</Time>
         <Amount>$6.17</Amount>
-      </Bid>
+      </Bid>	
+	  <Bid>
+	    <Bidder UserID="Mexmahon" Rating="661">
+	       <Location>little chute, wi</Location>
+           <Country>USA</Country>
+           </Bidder>
+           <Time>Dec-09-01 20:16:20</Time>
+           <Amount>$6.17</Amount>
+	  </Bid>
       <Bid>
         <Bidder UserID="jloldies" Rating="2468">
           <Location>Upstate New York</Location>
