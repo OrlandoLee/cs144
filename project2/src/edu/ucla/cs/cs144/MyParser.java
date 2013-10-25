@@ -261,7 +261,7 @@ try {
 					
 					Element subeElement = (Element) eElement.getElementsByTagName("Seller").item(0);	
 					
-					seller = subeElement.getAttribute("UserID");
+					seller = "\""+subeElement.getAttribute("UserID")+"\"";
 					
 					try {
 			            Date parsed = format.parse(started);
@@ -315,7 +315,8 @@ try {
 						        catch(ParseException pe) {
 						            System.out.println("ERROR: Cannot parse \"" + time + "\"");
 						        }
-							writer_bids.println(eElement.getAttribute("ItemID")+","+bid_subeElement.getAttribute("UserID")+","+time+","+bid_eElement.getElementsByTagName("Amount").item(0).getTextContent().replace("$",""));
+						String bidder = "\""+bid_subeElement.getAttribute("UserID")+"\"";
+							writer_bids.println(eElement.getAttribute("ItemID")+","+bidder+","+time+","+bid_eElement.getElementsByTagName("Amount").item(0).getTextContent().replace("$",""));
 					   			
 					/*Bidder********************************************************************/ 	
 					
@@ -326,7 +327,7 @@ try {
 						if(bid_eElement.getElementsByTagName("Location").getLength()==1)
 						    location = bid_eElement.getElementsByTagName("Location").item(0).getTextContent();
 					//	System.out.println(bid_subeElement.getAttribute("UserID")+","+bid_subeElement.getAttribute("Rating")+","+"\""+country+"\""+","+"\""+location+"\"");
-						user_hashtable.put(bid_subeElement.getAttribute("UserID"),","+bid_subeElement.getAttribute("Rating")+","+"\""+country+"\""+","+"\""+location+"\"");
+						user_hashtable.put(bidder,","+bid_subeElement.getAttribute("Rating")+","+"\""+country+"\""+","+"\""+location+"\"");
 							}
 							
 								
