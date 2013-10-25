@@ -293,8 +293,9 @@ try {
 					/*Seller********************************************************************/
 					
 					
-				
-					user_hashtable.put(seller,","+subeElement.getAttribute("Rating")+","+"\""+eElement.getElementsByTagName("Country").item(0).getTextContent()+"\""+","+"\""+eElement.getElementsByTagName("Location").item(0).getTextContent()+"\"");
+					int last_country = eElement.getElementsByTagName("Country").getLength()-1;
+					int last_location = eElement.getElementsByTagName("Location").getLength()-1;
+					user_hashtable.put(seller,","+subeElement.getAttribute("Rating")+","+"\""+eElement.getElementsByTagName("Country").item(last_country).getTextContent()+"\""+","+"\""+eElement.getElementsByTagName("Location").item(last_location).getTextContent()+"\"");
 					//in output file remove duplicates
 					
 						
