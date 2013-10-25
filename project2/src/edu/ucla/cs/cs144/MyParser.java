@@ -185,11 +185,33 @@ class MyParser {
         /* At this point 'doc' contains a DOM representation of an 'Items' XML
          * file. Use doc.getDocumentElement() to get the root Element. */
         System.out.println("Successfully parsed - " + xmlFile);
+
 try {
-	PrintWriter writer_user = new PrintWriter("user.dat", "UTF-8");
-	PrintWriter writer_bids = new PrintWriter("bids.dat", "UTF-8");
-	PrintWriter writer_id_category = new PrintWriter("id_category.dat", "UTF-8");
-	PrintWriter writer_item = new PrintWriter("item.dat", "UTF-8");
+	
+	
+	File file_user =new File("user.dat");
+	File file_bids =new File("bids.dat");
+	File file_id_category =new File("id_category.dat");
+	File file_item =new File("item.dat");
+
+	    		//if file doesnt exists, then create it
+	    		if(!file_user.exists()){
+	    			file_user.createNewFile();
+	    		}
+				if(!file_bids.exists()){
+	    			file_bids.createNewFile();
+	    		}
+				if(!file_id_category.exists()){
+	    			file_id_category.createNewFile();
+	    		}
+				if(!file_item.exists()){
+	    			file_item.createNewFile();
+	    		}
+	
+	PrintWriter writer_user = new PrintWriter("user.dat",true);
+	PrintWriter writer_bids = new PrintWriter("bids.dat",true);
+	PrintWriter writer_id_category = new PrintWriter("id_category.dat",true);
+	PrintWriter writer_item = new PrintWriter("item.dat",true);
 	
 	
 	SimpleDateFormat format = new SimpleDateFormat("MMM-dd-yy H:m:s");
