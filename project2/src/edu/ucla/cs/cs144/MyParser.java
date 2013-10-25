@@ -207,11 +207,12 @@ try {
 				if(!file_item.exists()){
 	    			file_item.createNewFile();
 	    		}
+
 	
-	PrintWriter writer_user = new PrintWriter("user.dat",true);
-	PrintWriter writer_bids = new PrintWriter("bids.dat",true);
-	PrintWriter writer_id_category = new PrintWriter("id_category.dat",true);
-	PrintWriter writer_item = new PrintWriter("item.dat",true);
+	PrintWriter writer_user = new PrintWriter(new FileOutputStream(file_user,true));
+	PrintWriter writer_bids = new PrintWriter(new FileOutputStream(file_bids,true));
+	PrintWriter writer_id_category = new PrintWriter(new FileOutputStream(file_id_category,true));
+	PrintWriter writer_item = new PrintWriter(new FileOutputStream(file_item,true));
 	
 	
 	SimpleDateFormat format = new SimpleDateFormat("MMM-dd-yy H:m:s");
