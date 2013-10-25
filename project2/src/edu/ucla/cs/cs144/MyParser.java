@@ -186,10 +186,10 @@ class MyParser {
          * file. Use doc.getDocumentElement() to get the root Element. */
         System.out.println("Successfully parsed - " + xmlFile);
 try {
-	PrintWriter writer_user = new PrintWriter("user.txt", "UTF-8");
-	PrintWriter writer_bids = new PrintWriter("bids.txt", "UTF-8");
-	PrintWriter writer_id_category = new PrintWriter("id_category.txt", "UTF-8");
-	PrintWriter writer_item = new PrintWriter("item.txt", "UTF-8");
+	PrintWriter writer_user = new PrintWriter("user.dat", "UTF-8");
+	PrintWriter writer_bids = new PrintWriter("bids.dat", "UTF-8");
+	PrintWriter writer_id_category = new PrintWriter("id_category.dat", "UTF-8");
+	PrintWriter writer_item = new PrintWriter("item.dat", "UTF-8");
 	
 	
 	SimpleDateFormat format = new SimpleDateFormat("MMM-dd-yy H:m:s");

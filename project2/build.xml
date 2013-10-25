@@ -34,7 +34,7 @@
             <arg value="items-0.xml" />
         </java>
     </target>
-
+/Users/orlandolee/Desktop/144/cs144/project2/build.xml
     <!-- run MyParser on all files at $EBAY_DATA/items-*.xml -->
     <target name="run-all" depends="compile">
         <!-- set the property "ebaydata" to the space-separated list of files
