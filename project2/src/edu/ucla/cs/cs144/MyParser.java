@@ -261,7 +261,7 @@ try {
 					
 					Element subeElement = (Element) eElement.getElementsByTagName("Seller").item(0);	
 					
-					seller = "\""+subeElement.getAttribute("UserID")+"\"";
+					seller = "\""+subeElement.getAttribute("UserID").replace("\"","\\\"")+"\"";
 					
 					try {
 			            Date parsed = format.parse(started);
@@ -295,7 +295,7 @@ try {
 					
 					int last_country = eElement.getElementsByTagName("Country").getLength()-1;
 					int last_location = eElement.getElementsByTagName("Location").getLength()-1;
-					user_hashtable.put(seller,","+subeElement.getAttribute("Rating")+","+"\""+eElement.getElementsByTagName("Country").item(last_country).getTextContent()+"\""+","+"\""+eElement.getElementsByTagName("Location").item(last_location).getTextContent()+"\"");
+					user_hashtable.put(seller,","+subeElement.getAttribute("Rating")+","+"\""+eElement.getElementsByTagName("Country").item(last_country).getTextContent().replace("\"","\\\"")+"\""+","+"\""+eElement.getElementsByTagName("Location").item(last_location).getTextContent().replace("\"","\\\"")+"\"");
 					//in output file remove duplicates
 					
 						
@@ -316,7 +316,7 @@ try {
 						        catch(ParseException pe) {
 						            System.out.println("ERROR: Cannot parse \"" + time + "\"");
 						        }
-						String bidder = "\""+bid_subeElement.getAttribute("UserID")+"\"";
+						String bidder = "\""+bid_subeElement.getAttribute("UserID").replace("\"","\\\"")+"\"";
 							writer_bids.println(eElement.getAttribute("ItemID")+","+bidder+","+time+","+bid_eElement.getElementsByTagName("Amount").item(0).getTextContent().replace("$",""));
 					   			
 					/*Bidder********************************************************************/ 	
@@ -324,9 +324,9 @@ try {
 						String location = "";
 						String country = "";
 						if(bid_eElement.getElementsByTagName("Country").getLength()==1)
-							country = bid_eElement.getElementsByTagName("Country").item(0).getTextContent();
+							country = bid_eElement.getElementsByTagName("Country").item(0).getTextContent().replace("\"","\\\"");
 						if(bid_eElement.getElementsByTagName("Location").getLength()==1)
-						    location = bid_eElement.getElementsByTagName("Location").item(0).getTextContent();
+						    location = bid_eElement.getElementsByTagName("Location").item(0).getTextContent().replace("\"","\\\"");
 					//	System.out.println(bid_subeElement.getAttribute("UserID")+","+bid_subeElement.getAttribute("Rating")+","+"\""+country+"\""+","+"\""+location+"\"");
 						user_hashtable.put(bidder,","+bid_subeElement.getAttribute("Rating")+","+"\""+country+"\""+","+"\""+location+"\"");
 							}
