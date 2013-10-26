@@ -242,7 +242,7 @@ try {
 					String item_id = "";
 					String name = "";
 					String currently = "";
-					String buy_price = "";
+					String buy_price = "0.00";
 					String first_bid = "";
 					String number_of_bids = "";
 					String discription = "";
