@@ -260,7 +260,7 @@ try {
 					{buy_price = "0.00";}	
 					first_bid = eElement.getElementsByTagName("First_Bid").item(0).getTextContent().replace("$","").replace(",","");
 					number_of_bids = eElement.getElementsByTagName("Number_of_Bids").item(0).getTextContent();
-					discription = eElement.getElementsByTagName("Description").item(0).getTextContent().replace("\"","\\\"");
+					discription = eElement.getElementsByTagName("Description").item(0).getTextContent().replace("\\","\\\\").replace("\"","\\\"");
 									
 					started = eElement.getElementsByTagName("Started").item(0).getTextContent();
 					ends = eElement.getElementsByTagName("Ends").item(0).getTextContent();
