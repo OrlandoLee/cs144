@@ -278,7 +278,7 @@ try {
 			        catch(ParseException pe) {
 			            System.out.println("ERROR: Cannot parse \"" + ends + "\"");
 			        }
-					writer_item.println(item_id+","+"\""+name+"\""+","+currently+","+buy_price+","+first_bid+","+number_of_bids+","+"\""+discription+"\""+","+started+","+ends+","+"\""+seller+"\"");
+					writer_item.println(item_id+","+"\""+name+"\""+","+"\""+currently+"\""+","+"\""+buy_price+"\""+","+"\""+first_bid+"\""+","+"\""+number_of_bids+"\""+","+"\""+discription+"\""+","+"\""+started+"\""+","+"\""+ends+"\""+","+"\""+seller+"\"");
 				
 					/*ItemID Category********************************************************************/
 					
@@ -317,7 +317,7 @@ try {
 						            System.out.println("ERROR: Cannot parse \"" + time + "\"");
 						        }
 						String bidder = "\""+bid_subeElement.getAttribute("UserID").replace("\"","\\\"")+"\"";
-							writer_bids.println(eElement.getAttribute("ItemID")+","+bidder+","+time+","+bid_eElement.getElementsByTagName("Amount").item(0).getTextContent().replace("$",""));
+							writer_bids.println(eElement.getAttribute("ItemID")+","+bidder+","+time+","+"\""+bid_eElement.getElementsByTagName("Amount").item(0).getTextContent().replace("$","")+"\"");
 					   			
 					/*Bidder********************************************************************/ 	
 					
