@@ -186,10 +186,10 @@ class MyParserPrint {
         
         /**************************************************************/
         
-        recursiveDescent(doc, 0,1);
+        recursiveDescent(doc, 0);
     }
     
-    public static void recursiveDescent(Node n, int level,int flag) {
+    public static void recursiveDescent(Node n, int level) {
         // adjust indentation according to level
         for(int i=0; i<4*level; i++)
             System.out.print(" ");
@@ -199,28 +199,19 @@ class MyParserPrint {
         String nname = n.getNodeName();
         String nvalue = n.getNodeValue();
         
-        //System.out.println("Type = " + ntype + ", Name = " + nname + ", Value = " + nvalue);
-        if(nname!="#text")
-			System.out.print(" Name = " + nname);
-		if(flag == 0)
-			System.out.println(" Value = " + nvalue);
+        System.out.println("Type = " + ntype + ", Name = " + nname + ", Value = " + nvalue);
+        
         // dump out attributes if any
         org.w3c.dom.NamedNodeMap nattrib = n.getAttributes();
         if(nattrib != null && nattrib.getLength() > 0)
             for(int i=0; i<nattrib.getLength(); i++)
-			  {
-				recursiveDescent(nattrib.item(i),  level+1,1);
-			  }
-                
+                recursiveDescent(nattrib.item(i),  level+1);
         
         // now walk through its children list
         org.w3c.dom.NodeList nlist = n.getChildNodes();
         
         for(int i=0; i<nlist.getLength(); i++)
-			if(i==nlist.getLength()-1)
-              recursiveDescent(nlist.item(i), level+1,0);
-			else
-			  recursiveDescent(nlist.item(i), level+1,1);
+            recursiveDescent(nlist.item(i), level+1);
     }  
     
     public static void main (String[] args) {
