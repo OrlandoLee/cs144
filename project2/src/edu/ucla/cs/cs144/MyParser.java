@@ -251,10 +251,10 @@ try {
 					String seller = "";
 				    item_id = eElement.getAttribute("ItemID");
 				    name = eElement.getElementsByTagName("Name").item(0).getTextContent().replace("\"","\\\"");
-				    currently = eElement.getElementsByTagName("Currently").item(0).getTextContent().replace("$","");
+				    currently = eElement.getElementsByTagName("Currently").item(0).getTextContent().replace("$","").replace(",","");
 				    if (eElement.getElementsByTagName("Buy_Price").getLength()==1)
-				    buy_price = eElement.getElementsByTagName("Buy_Price").item(0).getTextContent().replace("$","");
-					first_bid = eElement.getElementsByTagName("First_Bid").item(0).getTextContent().replace("$","");
+				    buy_price = eElement.getElementsByTagName("Buy_Price").item(0).getTextContent().replace("$","").replace(",","");
+					first_bid = eElement.getElementsByTagName("First_Bid").item(0).getTextContent().replace("$","").replace(",","");
 					number_of_bids = eElement.getElementsByTagName("Number_of_Bids").item(0).getTextContent();
 					discription = eElement.getElementsByTagName("Description").item(0).getTextContent().replace("\"","\\\"");
 					started = eElement.getElementsByTagName("Started").item(0).getTextContent();
@@ -317,7 +317,7 @@ try {
 						            System.out.println("ERROR: Cannot parse \"" + time + "\"");
 						        }
 						String bidder = "\""+bid_subeElement.getAttribute("UserID").replace("\"","\\\"")+"\"";
-							writer_bids.println(eElement.getAttribute("ItemID")+","+bidder+","+time+","+"\""+bid_eElement.getElementsByTagName("Amount").item(0).getTextContent().replace("$","")+"\"");
+							writer_bids.println(eElement.getAttribute("ItemID")+","+bidder+","+time+","+"\""+bid_eElement.getElementsByTagName("Amount").item(0).getTextContent().replace("$","").replace(",","")+"\"");
 					   			
 					/*Bidder********************************************************************/ 	
 					
