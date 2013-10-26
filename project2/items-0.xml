@@ -1,199 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Items SYSTEM "items.dtd">
 <Items>
-    <Item ItemID="1044707198">
-        <Name>Dept. 56 Green Grocer Dickens Village</Name>
+    <Item ItemID="1046740686">
+        <Name>Star Trek Bob Justman Dinner Experience</Name>
         <Category>Collectibles</Category>
-        <Category>Decorative &amp; Holiday</Category>
-        <Category>Decorative by Brand</Category>
-        <Category>Dept 56</Category>
-        <Category>Dickens Village</Category>
-        <Currently>$61.10</Currently>
-        <First_Bid>$3.00</First_Bid>
-        <Number_of_Bids>22</Number_of_Bids>
+        <Category>Pop Culture</Category>
+        <Category>Science Fiction</Category>
+        <Category>Star Trek</Category>
+        <Currently>$3,000.00</Currently>
+        <First_Bid>$3,000.00</First_Bid>
+        <Number_of_Bids>1</Number_of_Bids>
         <Bids>
             <Bid>
-                <Bidder UserID="le-chachka-box" Rating="2504">
-                    <Location>New York</Location>
+                <Bidder UserID="janetta2" Rating="125">
+                    <Location>Buffalo, NY</Location>
                     <Country>USA</Country>
                 </Bidder>
-                <Time>Dec-06-01 17:59:55</Time>
-                <Amount>$5.64</Amount>
-            </Bid>
-            <Bid>
-                <Bidder UserID="khmcggsb" Rating="1627">
-                    <Location>Redondo Beach, CA</Location>
-                    <Country>USA</Country>
-                </Bidder>
-                <Time>Dec-07-01 00:43:07</Time>
-                <Amount>$8.28</Amount>
-            </Bid>
-            <Bid>
-                <Bidder UserID="junkman76" Rating="455">
-                    <Location>Humbird Wisconsin</Location>
-                    <Country>USA</Country>
-                </Bidder>
-                <Time>Dec-07-01 07:26:19</Time>
-                <Amount>$10.92</Amount>
-            </Bid>
-            <Bid>
-                <Bidder UserID="r_h_burch@msn.com" Rating="125">
-                    <Location>happy holidays !!</Location>
-                    <Country>USA</Country>
-                </Bidder>
-                <Time>Dec-07-01 14:09:31</Time>
-                <Amount>$13.56</Amount>
-            </Bid>
-            <Bid>
-                <Bidder UserID="qdos" Rating="235">
-                    <Location>Old Skool</Location>
-                    <Country>United Kingdom</Country>
-                </Bidder>
-                <Time>Dec-07-01 20:52:43</Time>
-                <Amount>$16.20</Amount>
-            </Bid>
-            <Bid>
-                <Bidder UserID="rezarb" Rating="652">
-                    <Location>New &amp; Ready to ship for Christmas from REZARB</Location>
-                    <Country>USA</Country>
-                </Bidder>
-                <Time>Dec-08-01 03:35:55</Time>
-                <Amount>$18.85</Amount>
-            </Bid>
-            <Bid>
-                <Bidder UserID="m34c" Rating="482">
-                    <Location>SUNNY FLORIDA</Location>
-                    <Country>USA</Country>
-                </Bidder>
-                <Time>Dec-08-01 10:19:07</Time>
-                <Amount>$21.49</Amount>
-            </Bid>
-            <Bid>
-                <Bidder UserID="vrwc@mac.com" Rating="260">
-                    <Location>Los Angeles, CA</Location>
-                    <Country>USA</Country>
-                </Bidder>
-                <Time>Dec-08-01 17:02:19</Time>
-                <Amount>$24.13</Amount>
-            </Bid>
-            <Bid>
-                <Bidder UserID="laurieesw" Rating="435">
-                    <Location>Ripley 38063</Location>
-                    <Country>USA</Country>
-                </Bidder>
-                <Time>Dec-08-01 23:45:31</Time>
-                <Amount>$26.77</Amount>
-            </Bid>
-            <Bid>
-                <Bidder UserID="caw227@psu.edu" Rating="15">
-                    <Location>Orefield, PA</Location>
-                    <Country>USA</Country>
-                </Bidder>
-                <Time>Dec-09-01 06:28:43</Time>
-                <Amount>$29.41</Amount>
-            </Bid>
-            <Bid>
-                <Bidder UserID="4senough" Rating="78">
-                    <Location>Falling Waters, WV</Location>
-                    <Country>USA</Country>
-                </Bidder>
-                <Time>Dec-09-01 13:11:55</Time>
-                <Amount>$32.05</Amount>
-            </Bid>
-            <Bid>
-                <Bidder UserID="mimincrew@aol.com" Rating="1010">
-                    <Location>U.S.A.! LET'S ROLL!</Location>
-                    <Country>USA</Country>
-                </Bidder>
-                <Time>Dec-09-01 19:55:07</Time>
-                <Amount>$34.69</Amount>
-            </Bid>
-            <Bid>
-                <Bidder UserID="cjkshome" Rating="4">
-                    <Location>WILMINGTON, DE</Location>
-                    <Country>USA</Country>
-                </Bidder>
-                <Time>Dec-10-01 02:38:19</Time>
-                <Amount>$37.33</Amount>
-            </Bid>
-            <Bid>
-                <Bidder UserID="nostalg66" Rating="11505">
-                    <Location>Carrollton, Georgia</Location>
-                    <Country>USA</Country>
-                </Bidder>
-                <Time>Dec-10-01 09:21:31</Time>
-                <Amount>$39.97</Amount>
-            </Bid>
-            <Bid>
-                <Bidder UserID="primitivejake" Rating="575">
-                    <Location>MIDWEST</Location>
-                    <Country>USA</Country>
-                </Bidder>
-                <Time>Dec-10-01 16:04:43</Time>
-                <Amount>$42.61</Amount>
-            </Bid>
-            <Bid>
-                <Bidder UserID="tjduo" Rating="26">
-                    <Location>Kingston</Location>
-                    <Country>Canada</Country>
-                </Bidder>
-                <Time>Dec-10-01 22:47:55</Time>
-                <Amount>$45.25</Amount>
-            </Bid>
-            <Bid>
-                <Bidder UserID="shemanx" Rating="299">
-                    <Location>Austin, CO</Location>
-                    <Country>USA</Country>
-                </Bidder>
-                <Time>Dec-11-01 05:31:07</Time>
-                <Amount>$47.90</Amount>
-            </Bid>
-            <Bid>
-                <Bidder UserID="goofychild" Rating="221">
-                    <Location>somewhere over the rainbow :)</Location>
-                    <Country>USA</Country>
-                </Bidder>
-                <Time>Dec-11-01 12:14:19</Time>
-                <Amount>$50.54</Amount>
-            </Bid>
-            <Bid>
-                <Bidder UserID="tonster199" Rating="46">
-                    <Location>Hartford,CT</Location>
-                    <Country>USA</Country>
-                </Bidder>
-                <Time>Dec-11-01 18:57:31</Time>
-                <Amount>$53.18</Amount>
-            </Bid>
-            <Bid>
-                <Bidder UserID="heydoll" Rating="402">
-                    <Location>Dickson</Location>
-                    <Country>USA</Country>
-                </Bidder>
-                <Time>Dec-12-01 01:40:43</Time>
-                <Amount>$55.82</Amount>
-            </Bid>
-            <Bid>
-                <Bidder UserID="keykey98" Rating="0">
-                    <Location>West Palm Beach FL</Location>
-                    <Country>USA</Country>
-                </Bidder>
-                <Time>Dec-12-01 08:23:55</Time>
-                <Amount>$58.46</Amount>
-            </Bid>
-            <Bid>
-                <Bidder UserID="best_ma" Rating="787">
-                    <Location>NH ~ Smoke Free and Pet Free Home</Location>
-                    <Country>USA</Country>
-                </Bidder>
-                <Time>Dec-12-01 15:07:07</Time>
-                <Amount>$61.10</Amount>
+                <Time>Dec-12-01 21:05:54</Time>
+                <Amount>$3,000.00</Amount>
             </Bid>
         </Bids>
-        <Location>Gainesville, FL</Location>
+        <Location>Beverly Hills, CA</Location>
         <Country>USA</Country>
-        <Started>Dec-06-01 11:16:43</Started>
-        <Ends>Dec-13-01 11:16:43</Ends>
-        <Seller UserID="badortiesrecords" Rating="325"/>
-        <Description>I'm auctioning off a bunch of these figures out of the Dickens &amp; Heritage Village Series for a friend of mine. Please send payment quickly. Check out my other auctions if interested in more of these figures. GREEN GROCER ITEM #: 6515-3 INTRO: 1984 RETIRED: 1988 DESCRIPTION (Greenbook Guide to Dept. 56): "1 of the 7-piece set--THE ORIGINAL SHOPS OF DICKENS' VILLAGE. Thatched roof over timber two-story grocery/provision store. Bay window for display. Attached storage room on side of store." The box is missing on this piece, but the piece is in really good condition. Shipping will be $10 priority.</Description>
+        <Started>Dec-10-01 12:07:52</Started>
+        <Ends>Dec-20-01 12:07:52</Ends>
+        <Seller UserID="profiles-in-history" Rating="1197"/>
+        <Description>Step onto Desilu Stage 9 with Robert H. Justman! Profiles in History's Once in a Lifetime Experiences presents Dinner with Robert. H. Justman! What Star Trek fan wouldn't jump at the chance to spend an evening with one of the most beloved figures in Star Trek History? One very fortunate bidder will have that chance. The esteemed Mr. Justman needs no introduction to Star Trek fans, but here is an opportunity to spend a private evening with a true gentleman, a charming conversationalist, a genuine insider and a font of Star Trek knowledge, at one of the most "in" spots in LA - the famous Wolfgang Puck restaurant - Spago's Beverly Hills If you are the high bidder, you and a guest will be flown to Los Angeles where your personal Towncar awaits you. You will glide in luxury up the famous 405 freeway and down Sunset Boulevard, through Beverly Hills and into the heart of Hollywood, where your room at the grand old historic Hollywood Roosevelt Hotel has been reserved. This is the true Grande Dame of Hollywood - the site of the first Academy Awards Presentation and the glamorous gathering place of the biggest stars in Motion Picture History. Here, you will have time to relax, and freshen up before you meet Mr. Justman and his gracious, elegant wife for dinner. Your Towncar will drive you to Spago's where the food is the exquisite and the clientele exclusive. This is a unique and very limited opportunity to ask the questions you've always wanted to ask, discuss the subjects you want to discuss - and experience the luxury of a private dinner with a Star Trek legend. Of course Jamie Lee Curtis or Billy Crystal just might be at the next table. But you'll probably be so engrossed in Mr. Justman's tales and anecdotes (not only of Star Trek but his many, many other shows) that you won't even notice. When your dinner is over - your Towncar awaits to return you to your hotel, or to explore LA Nightlife on your own. The Hollywood Roosevelt Hotel is across from the Chinese Theater, convenient to Universal Studios, the Sunset Strip, and other major attractions, and only one block from the brand new entertainment &amp; shopping Complex, Hollywood and Highland! Be the first to go where no fan has gone before - into the private life of this distinguished and beloved repository of Star Trek lore. This item is one of more than 500 pieces of Star Trek memorabilia, all from the collection of Star Trek Art Director Matt Jefferies, Executive in Charge of Production Herb Solow and Producer Bob Justman. Our highlight items - over 300 - will be auctioned off live on December 12, 2001 at 2:00 pm PST. For a full list of these fantastic items and more info on the sale, please visit our eBay About Me page. You may also pre-register for this sale at eBay Live Auctions . Thank you, and good luck! For further information, please call our office at (800) 942-8856. ------------------------------------------------------------------ All winning bidders must be at least 18 years of age and show proof thereof satisfactory to Profiles in History. Profiles in History may reschedule or cancel Winner's visit at any time for any reason at their sole discretion. If Profiles in History cancels Winner's visit, Profiles in History will refund to Winner only the amount equal to the winning bid, and shall not be responsible or liable for any injuries, losses, damages or costs of any kind incurred by Winner or any other person or entity in connection with Winner's visit including, but not limited to injuries, losses, damages or costs incurred in connection with any rescheduling, deletion or alteration experience that included Winner or cancellation necessitated by Profiles in History or Winner. Winner acknowledges and agrees that (I) the opportunity for the dinner experience is non-transferable and will expire if not exercised by the Winner within the timeframe indicated by Profiles in History, (ii) any failure on Winner's part to comply with the rules and regulations of Profiles in History will result in forfeiture of Winner's right experience, (iii) all federal, state or other tax liabilities arising from Winner's acceptance of and participation in experience, if any, will be Winner's sole responsibility (iv) Winner, Winner's agents, spokespersons, representatives and employees, will not seek to publicise to press or media in any manner whatsoever Winner's participation in the experience. The Lifetime Experience is valid from January 7, 2002 - June 1, 2002. Transportation: It will include airfare for two. Profiles in History must be notified a minimum of 45 days prior to the date you select for the experience. Once your flights has been confirmed there are no changes. A Towncar meet you upon your arrival at the airport and transport you to your hotel. Also, the Towncar will pick you up at the hotel and take you and your guest to dinner and return you to the hotel. You will be responsible for your own transportation to the airport for your outbound flight. Lifetime Experience Dinner: Your dinner will be at a pre-selected upscale restaurant. Your dinner will include your order up to $100.00 per person for you and your guest. The payment of $200.00 (for you and your guest) and applicable taxes and gratuities will be handled (in advance) by Profiles in History. Once auction has closed and full payment has been received by Profiles in History, the winning bidder will be notified of his/her itinerary options. A Profiles in History representative will then contact winning bidder to co-ordinate the itinerary planning. Profiles in History may substitute items equal or greater value for one or more components of the Lifetime Experience. Profiles in History shall not be liable for non-utilisation of Lifetime Experience components or loss of recreational opportunities due to refurbishing, capacity, inclement weather, special events or any circumstances beyond our control. Free Honesty Counters powered by Andale! Payment Details See item description and Payment Instructions, or contact seller for more information. Payment Instructions See item description or contact seller for more information.</Description>
     </Item>
 </Items>

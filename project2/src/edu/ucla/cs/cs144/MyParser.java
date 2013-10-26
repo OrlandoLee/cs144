@@ -257,7 +257,9 @@ try {
 					first_bid = eElement.getElementsByTagName("First_Bid").item(0).getTextContent().replace("$","").replace(",","");
 					number_of_bids = eElement.getElementsByTagName("Number_of_Bids").item(0).getTextContent();
 					discription = eElement.getElementsByTagName("Description").item(0).getTextContent().replace("\"","\\\"");
+									
 					started = eElement.getElementsByTagName("Started").item(0).getTextContent();
+					ends = eElement.getElementsByTagName("Ends").item(0).getTextContent();
 					
 					Element subeElement = (Element) eElement.getElementsByTagName("Seller").item(0);	
 					
@@ -270,7 +272,7 @@ try {
 			        catch(ParseException pe) {
 			            System.out.println("ERROR: Cannot parse \"" + started + "\"");
 			        }
-					ends = eElement.getElementsByTagName("Ends").item(0).getTextContent();
+					
 					try {
 			            Date parsed = format.parse(ends);
 			            ends = newformat.format(parsed);
@@ -278,7 +280,7 @@ try {
 			        catch(ParseException pe) {
 			            System.out.println("ERROR: Cannot parse \"" + ends + "\"");
 			        }
-					writer_item.println(item_id+","+"\""+name+"\""+","+"\""+currently+"\""+","+"\""+buy_price+"\""+","+"\""+first_bid+"\""+","+"\""+number_of_bids+"\""+","+"\""+discription+"\""+","+"\""+started+"\""+","+"\""+ends+"\""+","+"\""+seller+"\"");
+					writer_item.println(item_id+","+"\""+name+"\""+","+"\""+currently+"\""+","+"\""+buy_price+"\""+","+"\""+first_bid+"\""+","+number_of_bids+","+"\""+discription+"\""+","+"\""+started+"\""+","+"\""+ends+"\""+","+"\""+seller+"\"");
 				
 					/*ItemID Category********************************************************************/
 					
