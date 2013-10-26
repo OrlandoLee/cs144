@@ -253,7 +253,11 @@ try {
 				    name = eElement.getElementsByTagName("Name").item(0).getTextContent().replace("\"","\\\"");
 				    currently = eElement.getElementsByTagName("Currently").item(0).getTextContent().replace("$","").replace(",","");
 				    if (eElement.getElementsByTagName("Buy_Price").getLength()==1)
-				    buy_price = eElement.getElementsByTagName("Buy_Price").item(0).getTextContent().replace("$","").replace(",","");
+				    {
+					buy_price = eElement.getElementsByTagName("Buy_Price").item(0).getTextContent().replace("$","").replace(",","");
+					}
+					else
+					{buy_price = "0.00";}	
 					first_bid = eElement.getElementsByTagName("First_Bid").item(0).getTextContent().replace("$","").replace(",","");
 					number_of_bids = eElement.getElementsByTagName("Number_of_Bids").item(0).getTextContent();
 					discription = eElement.getElementsByTagName("Description").item(0).getTextContent().replace("\"","\\\"");
