@@ -30,6 +30,21 @@ public class Indexer {
 	}
 
 
+	Statment stmt = conn.createStatement();
+	String itemId = "";	
+	String name = "";
+	String discription = "";
+	String category = ""; //from item category table
+	
+	
+	ResultSet rs = stmt.executeQuery("select * from item");
+	while(rs.next()){
+		itemId = rs.getString("item_id");
+		name = rs.getString ("name");
+		discription = rs.getString ("description");
+		
+		System.out.println(itemId + ","+name+","+discription)+".");
+	}
 	/*
 	 * Add your code here to retrieve Items using the connection
 	 * and add corresponding entries to your Lucene inverted indexes.
