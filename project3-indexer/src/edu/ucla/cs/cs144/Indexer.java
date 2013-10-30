@@ -31,6 +31,7 @@ public class Indexer {
 
 
 	Statment stmt = conn.createStatement();
+	
 	String itemId = "";	
 	String name = "";
 	String discription = "";
@@ -53,7 +54,7 @@ public class Indexer {
 		name = rs.getString ("name");
 		discription = rs.getString ("description");
 		
-		rs_category = stmt.executeQuery("select * from id_category where item_id = "+itemId);
+		rs_category = stmt.executeQuery("select * from id_category where item_id = "+itemId);//?????""
 		while(rs_category.next())
 		{
 			category = rs_category.getString("category");
