@@ -34,17 +34,31 @@ public class Indexer {
 	String itemId = "";	
 	String name = "";
 	String discription = "";
+	String fullSearchableText = "";
 	String category = ""; //from item category table
 	
 	
 	ResultSet rs = stmt.executeQuery("select * from item");
+	
+	
+	String index_directory = System.getenv("LUCENE_INDEX");
+	IndexWriter indexWriter = new IndexWriter( index_directory + "/index1", new StandartAnalyzer(), true);
+	Document doc = new Document();
+
 	while(rs.next()){
 		itemId = rs.getString("item_id");
 		name = rs.getString ("name");
 		discription = rs.getString ("description");
-		
+		fullSearchableString = name + " "+ discription;//and so on
+		doc.add(new Field("itemId", itemId, Field.Store.YES, Filed.Index.NO ));
+		doc.add(new Field("name", name, Field.Store.YES, Filed.Index.TOKENIZED ));
+		doc.add(new Field("description", discription, Field.Store.YES, Filed.Index.TOKENIZED ));
+		doc.add(new Field("content", fullSearchableText, Field.Store.NO, Filed.Index.TOKENIZED ));
+		writer.addDocument(doc);
 		System.out.println(itemId + ","+name+","+discription)+".");
 	}
+
+	
 	/*
 	 * Add your code here to retrieve Items using the connection
 	 * and add corresponding entries to your Lucene inverted indexes.
