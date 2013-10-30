@@ -39,24 +39,38 @@ public class Indexer {
 	
 	
 	ResultSet rs = stmt.executeQuery("select * from item");
-	
+	ResultSet rs_category;
 	
 	String index_directory = System.getenv("LUCENE_INDEX");
 	IndexWriter indexWriter = new IndexWriter( index_directory + "/index1", new StandartAnalyzer(), true);
 	Document doc = new Document();
 
 	while(rs.next()){
+		
+		fullSearchableString = "";
+		
 		itemId = rs.getString("item_id");
 		name = rs.getString ("name");
 		discription = rs.getString ("description");
-		fullSearchableString = name + " "+ discription;//and so on
+		
+		rs_category = stmt.executeQuery("select * from id_category where item_id = "+itemId);
+		while(rs_category.next())
+		{
+			category = rs_category.getString("category");
+			doc.add(new Field("category", category, Field.Store.YES, Filed.Index.YES));
+			fullSearchableString+ = category+" ";
+		}
+		
+		fullSearchableString+ = name + " "+ discription;
 		doc.add(new Field("itemId", itemId, Field.Store.YES, Filed.Index.NO ));
 		doc.add(new Field("name", name, Field.Store.YES, Filed.Index.TOKENIZED ));
 		doc.add(new Field("description", discription, Field.Store.YES, Filed.Index.TOKENIZED ));
 		doc.add(new Field("content", fullSearchableText, Field.Store.NO, Filed.Index.TOKENIZED ));
 		writer.addDocument(doc);
-		System.out.println(itemId + ","+name+","+discription)+".");
+		System.out.println(itemId + ","+fullSearchableText);
 	}
+	
+
 
 	
 	/*
