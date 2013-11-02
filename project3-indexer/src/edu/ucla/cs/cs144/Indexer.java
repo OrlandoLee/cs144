@@ -82,7 +82,7 @@ public class Indexer {
 	    System.out.println(ex);
 	}
     }    
-
+	}
     public static void main(String args[]) throws SQLException{
         Indexer idx = new Indexer();
 		idx.rebuildIndexes();
