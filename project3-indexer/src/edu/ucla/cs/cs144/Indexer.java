@@ -18,7 +18,7 @@ public class Indexer {
     public Indexer() {
     }
  
-    public void rebuildIndexes()
+    public void rebuildIndexes()throws SQLException
 	{
 
         Connection conn = null;
@@ -79,7 +79,6 @@ try{
 		rs_category.close();
 		
    	} 
-
  if (indexWriter != null) {
             indexWriter.close();
   }
