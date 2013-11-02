@@ -47,18 +47,15 @@ public class Indexer {
 
 
 	while(rs.next()){
-		
 		fullSearchableText = "";
 		itemId = rs.getString("item_id");
 		name = rs.getString ("name");
-		description = rs.getString ("description");
-		
+		description = rs.getString ("description");		
 		System.out.println(itemId + " item_id");
     	} 
-        // close the database connection
 
 	rs.close();
-	rs_category.close();
+//	rs_category.close();
 	stmt.close();
 	try {
 	    conn.close();
