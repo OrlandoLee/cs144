@@ -41,9 +41,9 @@ public class Indexer {
 	
 	ResultSet rs = stmt.executeQuery("select * from item");
 	ResultSet rs_category = null;
-	String index_directory = System.getenv("LUCENE_INDEX");
-	IndexWriter indexWriter = new IndexWriter( index_directory + "/index1", new StandardAnalyzer(), true);
-	Document doc = new Document();
+//	String index_directory = System.getenv("LUCENE_INDEX");
+//	IndexWriter indexWriter = new IndexWriter( index_directory + "/index1", new StandardAnalyzer(), true);
+//	Document doc = new Document();
 
 
 	while(rs.next()){
