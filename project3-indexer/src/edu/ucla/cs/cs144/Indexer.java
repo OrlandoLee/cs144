@@ -32,7 +32,8 @@ public class Indexer {
 
 	
 	Statement stmt = conn.createStatement();
-
+	Statement stmt1 = conn.createStatement();
+	
 	String itemId = "";	
 	String name = "";
 	String description = "";
@@ -52,8 +53,8 @@ public class Indexer {
 		name = rs.getString ("name");
 		description = rs.getString ("description");		
 		
-		ResultSet rs_category = stmt.executeQuery("select * from id_category");// where item_id = 1049497841");
-/*	
+		ResultSet rs_category = stmt1.executeQuery("select * from id_category where item_id =" + itemId);
+	
 		while(rs_category.next())
 		{
 
@@ -63,8 +64,7 @@ public class Indexer {
 			//doc.add(new Field("category", category, Field.Store.YES, Field.Index.TOKENIZED));
 			fullSearchableText = fullSearchableText+" "+category+" ";
 		}
-*/
-			System.out.println("1");
+
 		fullSearchableText = fullSearchableText + name + " "+ description;
 	
 		rs_category.close();
