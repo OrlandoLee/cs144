@@ -52,7 +52,7 @@ public class Indexer {
 		name = rs.getString ("name");
 		description = rs.getString ("description");		
 		
-		ResultSet rs_category = stmt.executeQuery("select * from id_category where item_id = 1049497841");
+	//	ResultSet rs_category = stmt.executeQuery("select * from id_category where item_id = 1049497841");
 /*	
 		while(rs_category.next())
 		{
@@ -67,7 +67,7 @@ public class Indexer {
 			System.out.println("1");
 		fullSearchableText = fullSearchableText + name + " "+ description;
 	
-		rs_category.close();
+//		rs_category.close();
 		
    	} 
 
