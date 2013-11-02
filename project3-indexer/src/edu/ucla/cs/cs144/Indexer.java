@@ -55,19 +55,7 @@ try{
 		itemId = rs.getString("item_id");
 		name = rs.getString ("name");
 		description = rs.getString ("description");		
-		
-		/*ResultSet rs_category = stmt1.executeQuery("select * from id_category where item_id =" + itemId);
-	
-		while(rs_category.next())
-		{
-
-			itemId = rs_category.getString("item_id");
-			category = rs_category.getString("category");
-			doc.add(new Field("category", category, Field.Store.YES, Field.Index.TOKENIZED));
-			fullSearchableText = fullSearchableText+" "+category+" ";
-		}
-		*/
-		fullSearchableText = fullSearchableText + name + " "+ description+" ";
+		fullSearchableText = name + " "+ description+" ";
 	
 		doc.add(new Field("itemId", itemId, Field.Store.YES, Field.Index.NO ));
 		doc.add(new Field("name", name, Field.Store.YES, Field.Index.TOKENIZED ));
@@ -75,9 +63,20 @@ try{
 		doc.add(new Field("content", fullSearchableText, Field.Store.NO, Field.Index.TOKENIZED ));
 		indexWriter.addDocument(doc);
 		
-	//	rs_category.close();
+	
 		
    	} 
+
+	ResultSet rs_category = stmt1.executeQuery("select * from id_category");
+
+	while(rs_category.next())
+	{
+		itemId = rs_category.getString("item_id");
+		category = rs_category.getString("category");
+		doc.add(new Field("itemId", itemId, Field.Store.YES, Field.Index.NO ));
+		doc.add(new Field("category", category, Field.Store.YES, Field.Index.TOKENIZED));
+	}
+	
  if (indexWriter != null) {
             indexWriter.close();
   }
@@ -85,7 +84,7 @@ try{
 {
 	System.out.println("Exception caught.\n");
 }
-
+	rs_category.close();
 	rs.close();
 	stmt.close();
 	
