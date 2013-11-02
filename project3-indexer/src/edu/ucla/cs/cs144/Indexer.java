@@ -18,7 +18,7 @@ public class Indexer {
     public Indexer() {
     }
  
-    public void rebuildIndexes()throws SQLException
+    public void rebuildIndexes()
 	{
 
         Connection conn = null;
@@ -42,12 +42,15 @@ public class Indexer {
 	
 	ResultSet rs = stmt.executeQuery("select * from item");
 
-//	String index_directory = System.getenv("LUCENE_INDEX");
-//	IndexWriter indexWriter = new IndexWriter( index_directory + "/index1", new StandardAnalyzer(), true);
-//	Document doc = new Document();
 
 
+
+	
+	String index_directory = System.getenv("LUCENE_INDEX");
+try{	
+	IndexWriter indexWriter = new IndexWriter( index_directory + "/index1", new StandardAnalyzer(), true);
 	while(rs.next()){
+		Document doc = new Document();
 		fullSearchableText = "";
 		itemId = rs.getString("item_id");
 		name = rs.getString ("name");
@@ -60,19 +63,35 @@ public class Indexer {
 
 			itemId = rs_category.getString("item_id");
 			category = rs_category.getString("category");
-			//doc.add(new Field("category", category, Field.Store.YES, Field.Index.TOKENIZED));
+			doc.add(new Field("category", category, Field.Store.YES, Field.Index.TOKENIZED));
+			
 			fullSearchableText = fullSearchableText+" "+category+" ";
 		}
 
 		fullSearchableText = fullSearchableText + name + " "+ description+" ";
 	
+		doc.add(new Field("itemId", itemId, Field.Store.YES, Field.Index.NO ));
+		doc.add(new Field("name", name, Field.Store.YES, Field.Index.TOKENIZED ));
+		doc.add(new Field("description", description, Field.Store.YES, Field.Index.TOKENIZED ));
+		doc.add(new Field("content", fullSearchableText, Field.Store.NO, Field.Index.TOKENIZED ));
+		indexWriter.addDocument(doc);
+		
 		rs_category.close();
 		
    	} 
 
+ if (indexWriter != null) {
+            indexWriter.close();
+  }
+}catch (Exception e)
+{
+	System.out.println("Exception caught.\n");
+}
 
 	rs.close();
 	stmt.close();
+	
+	
 	try {
 	    conn.close();
 	} catch (SQLException ex) {
