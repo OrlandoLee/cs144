@@ -46,7 +46,7 @@ public class Indexer {
 //	Document doc = new Document();
 
 
-//	while(rs.next()){
+	while(rs.next()){
 		fullSearchableText = "";
 		itemId = rs.getString("item_id");
 		name = rs.getString ("name");
@@ -67,7 +67,7 @@ public class Indexer {
 	
 		rs_category.close();
 		
-//   	} 
+   	} 
 
 
 	rs.close();
