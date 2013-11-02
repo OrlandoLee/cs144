@@ -71,11 +71,13 @@ try{
 
 	while(rs_category.next())
 	{
+		Document doc1 = new Document();
 		itemId = rs_category.getString("item_id");
 		category = rs_category.getString("category");
-		doc.add(new Field("itemId", itemId, Field.Store.YES, Field.Index.NO ));
-		doc.add(new Field("category", category, Field.Store.YES, Field.Index.TOKENIZED));
+		doc1.add(new Field("itemId", itemId, Field.Store.YES, Field.Index.NO ));
+		doc1.add(new Field("category", category, Field.Store.YES, Field.Index.TOKENIZED));
 	}
+	rs_category.close();
 	
  if (indexWriter != null) {
             indexWriter.close();
@@ -84,9 +86,10 @@ try{
 {
 	System.out.println("Exception caught.\n");
 }
-	rs_category.close();
+	
 	rs.close();
 	stmt.close();
+	stmt1.close();
 	
 	
 	try {
