@@ -64,7 +64,6 @@ try{
 			itemId = rs_category.getString("item_id");
 			category = rs_category.getString("category");
 			doc.add(new Field("category", category, Field.Store.YES, Field.Index.TOKENIZED));
-			System.out.println(category);
 			fullSearchableText = fullSearchableText+" "+category+" ";
 		}
 
@@ -74,7 +73,6 @@ try{
 		doc.add(new Field("name", name, Field.Store.YES, Field.Index.TOKENIZED ));
 		doc.add(new Field("description", description, Field.Store.YES, Field.Index.TOKENIZED ));
 		doc.add(new Field("content", fullSearchableText, Field.Store.NO, Field.Index.TOKENIZED ));
-		System.out.println("Building index for "+ itemId);
 		indexWriter.addDocument(doc);
 		
 		rs_category.close();
