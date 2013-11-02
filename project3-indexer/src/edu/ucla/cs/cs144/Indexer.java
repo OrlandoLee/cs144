@@ -53,9 +53,13 @@ public class Indexer {
 		name = rs.getString ("name");
 		description = rs.getString ("description");
 		
-		System.out.println(itemId + " item_id" + name + "name" + description + "description");
+		System.out.println(itemId + " item_id");
     	} 
         // close the database connection
+
+	rs.close();
+	rs_category.close();
+	stmt.close();
 	try {
 	    conn.close();
 	} catch (SQLException ex) {
