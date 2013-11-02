@@ -18,7 +18,7 @@ public class Indexer {
     public Indexer() {
     }
  
-    public void rebuildIndexes()throws org.apache.lucene.index.CorruptIndexException, org.apache.lucene.store.LockObtainFailedException, java.io.IOException
+    public void rebuildIndexes()throws SQLException, org.apache.lucene.index.CorruptIndexException, org.apache.lucene.store.LockObtainFailedException, java.io.IOException
 	{
 
         Connection conn = null;
@@ -31,71 +31,30 @@ public class Indexer {
 	}
 
 	
-	Statement stmt = null;
-	try{
-	    stmt = conn.createStatement();
-	}catch (SQLException ex){
-	    System.out.println(ex);
-	}
+	Statement stmt = conn.createStatement();
+
 	String itemId = "";	
 	String name = "";
-	String discription = "";
+	String description = "";
 	String fullSearchableText = "";
 	String category = ""; //from item category table
 	
-	ResultSet rs = null;
-	try{
-	    rs = stmt.executeQuery("select * from item");
-	}catch (SQLException ex){
-	    System.out.println(ex.getMessage());
-	}
-	
+	ResultSet rs = stmt.executeQuery("select * from item");
 	ResultSet rs_category = null;
-	
 	String index_directory = System.getenv("LUCENE_INDEX");
 	IndexWriter indexWriter = new IndexWriter( index_directory + "/index1", new StandardAnalyzer(), true);
 	Document doc = new Document();
 
-	try{
+
 	while(rs.next()){
 		
 		fullSearchableText = "";
-		
-		try{
 		itemId = rs.getString("item_id");
 		name = rs.getString ("name");
-		discription = rs.getString ("description");
-		}catch (SQLException ex){
-		    System.out.println(ex);
-		}
-		try
-		{
-		while(rs_category.next())
-		{
+		description = rs.getString ("description");
 		
-			category = rs_category.getString("category");
-			doc.add(new Field("category", category, Field.Store.YES, Field.Index.TOKENIZED));
-			fullSearchableText = fullSearchableText+category+" ";
-		}
-		}catch(SQLException ex)
-		{
-			System.out.println(ex);
-		}
-		
-		fullSearchableText = fullSearchableText + name + " "+ discription;
-		System.out.println(fullSearchableText);
-		doc.add(new Field("itemId", itemId, Field.Store.YES, Field.Index.NO ));
-		doc.add(new Field("name", name, Field.Store.YES, Field.Index.TOKENIZED ));
-		doc.add(new Field("description", discription, Field.Store.YES, Field.Index.TOKENIZED ));
-		doc.add(new Field("content", fullSearchableText, Field.Store.NO, Field.Index.TOKENIZED ));
-		indexWriter.addDocument(doc);
-		System.out.println(itemId + ","+fullSearchableText);
-	}
-	}catch(SQLException ex)
-	{
-	    System.out.println(ex);
-	}
-	indexWriter.close();
+		System.out.println(itemId + " item_id" + name + "name" + description + "description");
+	
 	/*
 	 * Add your code here to retrieve Items using the connection
 	 * and add corresponding entries to your Lucene inverted indexes.
@@ -124,12 +83,8 @@ public class Indexer {
 	}
     }    
 
-    public static void main(String args[]) {
+    public static void main(String args[]) throws SQLException{
         Indexer idx = new Indexer();
-        try
-	{idx.rebuildIndexes();}
-	catch (Exception ex){
-	    System.out.println(ex);
-	}
+		idx.rebuildIndexes();
     }   
 }
