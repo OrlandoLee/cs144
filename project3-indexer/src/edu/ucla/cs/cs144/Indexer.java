@@ -66,6 +66,18 @@ public class Indexer {
 	
     public static void main(String args[]) throws SQLException{
         Indexer idx = new Indexer();
-		idx.rebuildIndexes();
+		try{idx.rebuildIndexes();}
+		catch(SQLException ex){
+		            System.out.println("SQLException caught");
+		            System.out.println("---");
+		            while ( ex != null ){
+		                System.out.println("Message   : " + ex.getMessage());
+		                System.out.println("SQLState  : " + ex.getSQLState());
+		                System.out.println("ErrorCode : " + ex.getErrorCode());
+		                System.out.println("---");
+		                ex = ex.getNextException();
+		            }
+		       }
+		
     }   
 }
