@@ -40,7 +40,7 @@ public class Indexer {
 	String category = ""; //from item category table
 	
 	ResultSet rs = stmt.executeQuery("select * from item");
-	ResultSet rs_category = null;
+
 //	String index_directory = System.getenv("LUCENE_INDEX");
 //	IndexWriter indexWriter = new IndexWriter( index_directory + "/index1", new StandardAnalyzer(), true);
 //	Document doc = new Document();
@@ -52,7 +52,7 @@ public class Indexer {
 		name = rs.getString ("name");
 		description = rs.getString ("description");		
 		
-		rs_category = stmt.executeQuery("select * from id_category where item_id = "+itemId);
+		ResultSet rs_category = stmt.executeQuery("select * from id_category where item_id = "+itemId);
 	
 		while(rs_category.next())
 		{
@@ -64,10 +64,11 @@ public class Indexer {
 
 		fullSearchableText = fullSearchableText + name + " "+ description;
 		System.out.println(category);
+		rs_category.close();
 		
    	} 
 
-	rs_category.close();
+
 	rs.close();
 	stmt.close();
 	try {
