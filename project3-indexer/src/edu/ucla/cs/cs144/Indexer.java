@@ -56,7 +56,7 @@ try{
 		name = rs.getString ("name");
 		description = rs.getString ("description");		
 		
-		ResultSet rs_category = stmt1.executeQuery("select * from id_category where item_id =" + itemId);
+		/*ResultSet rs_category = stmt1.executeQuery("select * from id_category where item_id =" + itemId);
 	
 		while(rs_category.next())
 		{
@@ -66,7 +66,7 @@ try{
 			doc.add(new Field("category", category, Field.Store.YES, Field.Index.TOKENIZED));
 			fullSearchableText = fullSearchableText+" "+category+" ";
 		}
-
+		*/
 		fullSearchableText = fullSearchableText + name + " "+ description+" ";
 	
 		doc.add(new Field("itemId", itemId, Field.Store.YES, Field.Index.NO ));
@@ -75,7 +75,7 @@ try{
 		doc.add(new Field("content", fullSearchableText, Field.Store.NO, Field.Index.TOKENIZED ));
 		indexWriter.addDocument(doc);
 		
-		rs_category.close();
+	//	rs_category.close();
 		
    	} 
  if (indexWriter != null) {
