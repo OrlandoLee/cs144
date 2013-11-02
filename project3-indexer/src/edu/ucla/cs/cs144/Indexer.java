@@ -63,7 +63,7 @@ public class Indexer {
 		}
 
 		fullSearchableText = fullSearchableText + name + " "+ description;
-		System.out.println(fullSearchableText);
+		System.out.println(category);
 		
    	} 
 
