@@ -52,7 +52,7 @@ public class Indexer {
 		name = rs.getString ("name");
 		description = rs.getString ("description");		
 		
-		ResultSet rs_category = stmt.executeQuery("select * from id_category where item_id = "+itemId);
+		ResultSet rs_category = stmt.executeQuery("select * from id_category");// where item_id = "+itemId);
 	
 		while(rs_category.next())
 		{
