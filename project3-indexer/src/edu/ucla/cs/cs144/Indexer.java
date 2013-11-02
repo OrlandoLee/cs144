@@ -52,18 +52,19 @@ public class Indexer {
 		name = rs.getString ("name");
 		description = rs.getString ("description");		
 		
-		ResultSet rs_category = stmt.executeQuery("select * from id_category");// where item_id = "+itemId);
+		ResultSet rs_category = stmt.executeQuery("select * from id_category where item_id = 1049497841");
 	
 		while(rs_category.next())
 		{
 
 			category = rs_category.getString("category");
+				System.out.println(category);
 			//doc.add(new Field("category", category, Field.Store.YES, Field.Index.TOKENIZED));
 			fullSearchableText = fullSearchableText+" "+category+" ";
 		}
 
 		fullSearchableText = fullSearchableText + name + " "+ description;
-		System.out.println(category);
+	
 		rs_category.close();
 		
    	} 
