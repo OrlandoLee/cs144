@@ -76,6 +76,7 @@ try{
 		category = rs_category.getString("category");
 		doc1.add(new Field("itemId", itemId, Field.Store.YES, Field.Index.NO ));
 		doc1.add(new Field("category", category, Field.Store.YES, Field.Index.TOKENIZED));
+		System.out.println(category);
 	}
 	rs_category.close();
 	
