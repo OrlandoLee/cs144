@@ -51,11 +51,24 @@ public class Indexer {
 		itemId = rs.getString("item_id");
 		name = rs.getString ("name");
 		description = rs.getString ("description");		
-		System.out.println(itemId + " item_id");
+		
+		rs_category = stmt.executeQuery("select * from id_category where item_id = "+itemId);
+	
+		while(rs_category.next())
+		{
+
+			category = rs_category.getString("category");
+			//doc.add(new Field("category", category, Field.Store.YES, Field.Index.TOKENIZED));
+			fullSearchableText = fullSearchableText+category+" ";
+		}
+
+		fullSearchableText = fullSearchableText + name + " "+ description;
+		System.out.println(fullSearchableText);
+		
     	} 
 
+	rs_category.close();
 	rs.close();
-//	rs_category.close();
 	stmt.close();
 	try {
 	    conn.close();
