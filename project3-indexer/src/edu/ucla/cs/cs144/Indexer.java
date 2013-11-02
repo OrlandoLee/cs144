@@ -61,10 +61,7 @@ try{
 		doc.add(new Field("name", name, Field.Store.YES, Field.Index.TOKENIZED ));
 		doc.add(new Field("description", description, Field.Store.YES, Field.Index.TOKENIZED ));
 		doc.add(new Field("content", fullSearchableText, Field.Store.NO, Field.Index.TOKENIZED ));
-		indexWriter.addDocument(doc);
-		
-	
-		
+		indexWriter.addDocument(doc);	
    	} 
 
 	ResultSet rs_category = stmt1.executeQuery("select * from id_category");
@@ -76,7 +73,7 @@ try{
 		category = rs_category.getString("category");
 		doc1.add(new Field("itemId", itemId, Field.Store.YES, Field.Index.NO ));
 		doc1.add(new Field("category", category, Field.Store.YES, Field.Index.TOKENIZED));
-		System.out.println(category);
+		indexWriter.addDocument(doc1);
 	}
 	rs_category.close();
 	
