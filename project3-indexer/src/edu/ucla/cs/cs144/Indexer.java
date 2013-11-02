@@ -53,7 +53,7 @@ public class Indexer {
 		description = rs.getString ("description");		
 		
 		ResultSet rs_category = stmt.executeQuery("select * from id_category where item_id = 1049497841");
-	
+/*	
 		while(rs_category.next())
 		{
 
@@ -63,7 +63,7 @@ public class Indexer {
 			//doc.add(new Field("category", category, Field.Store.YES, Field.Index.TOKENIZED));
 			fullSearchableText = fullSearchableText+" "+category+" ";
 		}
-
+*/
 			System.out.println("1");
 		fullSearchableText = fullSearchableText + name + " "+ description;
 	
