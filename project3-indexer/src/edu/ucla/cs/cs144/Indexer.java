@@ -60,12 +60,11 @@ public class Indexer {
 
 			itemId = rs_category.getString("item_id");
 			category = rs_category.getString("category");
-				System.out.println(category);
 			//doc.add(new Field("category", category, Field.Store.YES, Field.Index.TOKENIZED));
 			fullSearchableText = fullSearchableText+" "+category+" ";
 		}
 
-		fullSearchableText = fullSearchableText + name + " "+ description;
+		fullSearchableText = fullSearchableText + name + " "+ description+" ";
 	
 		rs_category.close();
 		
