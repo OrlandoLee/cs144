@@ -18,7 +18,7 @@ public class Indexer {
     public Indexer() {
     }
  
-    public void rebuildIndexes()throws SQLException, org.apache.lucene.index.CorruptIndexException, org.apache.lucene.store.LockObtainFailedException, java.io.IOException
+    public void rebuildIndexes()throws SQLException
 	{
 
         Connection conn = null;
@@ -66,7 +66,9 @@ public class Indexer {
 	
     public static void main(String args[]) throws SQLException{
         Indexer idx = new Indexer();
-		try{idx.rebuildIndexes();}
+		try{
+			idx.rebuildIndexes();
+			}
 		catch(SQLException ex){
 		            System.out.println("SQLException caught");
 		            System.out.println("---");
