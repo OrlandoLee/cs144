@@ -163,6 +163,11 @@ class MyParser {
             return nf.format(am).substring(1);
         }
     }
+
+	static String preprocess(String s)
+	{
+		return "\""+s.replace("\"","\\\"")+"\""
+	}
     
     /* Process one items-???.xml file.
      */
@@ -187,28 +192,26 @@ class MyParser {
         System.out.println("Successfully parsed - " + xmlFile);
 
 try {
-	
-	
+	////////////////
+	//file writer for user bids id_category item.
+	///////////////
 	File file_user =new File("user.dat");
 	File file_bids =new File("bids.dat");
 	File file_id_category =new File("id_category.dat");
 	File file_item =new File("item.dat");
 
-	    		//if file doesnt exists, then create it
-	    		if(!file_user.exists()){
-	    			file_user.createNewFile();
-	    		}
-				if(!file_bids.exists()){
-	    			file_bids.createNewFile();
-	    		}
-				if(!file_id_category.exists()){
-	    			file_id_category.createNewFile();
-	    		}
-				if(!file_item.exists()){
-	    			file_item.createNewFile();
-	    		}
-
-	
+	if(!file_user.exists()){
+	 	file_user.createNewFile();
+	   }
+	if(!file_bids.exists()){
+	    file_bids.createNewFile();
+	   }
+	if(!file_id_category.exists()){
+	    file_id_category.createNewFile();
+	   }
+	if(!file_item.exists()){
+	   	file_item.createNewFile();
+	   }
 	PrintWriter writer_user = new PrintWriter(new FileOutputStream(file_user,true));
 	PrintWriter writer_bids = new PrintWriter(new FileOutputStream(file_bids,true));
 	PrintWriter writer_id_category = new PrintWriter(new FileOutputStream(file_id_category,true));
@@ -217,28 +220,13 @@ try {
 	
 	SimpleDateFormat format = new SimpleDateFormat("MMM-dd-yy H:m:s");
 	SimpleDateFormat newformat = new SimpleDateFormat("yyyy-MM-dd HH:m:s");
-        
-        /* Fill in code here (you will probably need to write auxiliary
-            methods). */
-	
-	   org.w3c.dom.NodeList nList = doc.getElementsByTagName("Item");
-	
-//	   System.out.println("Item id,Name,Currently,Buy_Price,First_Bid,Number_of_Bids,Description,Started,Ends,Seller");   
-//	   	System.out.println("Item id,Category : ");
-//	System.out.println("UserID,Rating,Country,Location : ");
-//	System.out.println("Item id,UserID,Time,Amount");
-	   Hashtable user_hashtable = new Hashtable();
-	   
 
-	   for (int i = 0; i < nList.getLength(); i++) {
-//		for (int i = 0; i < 1; i++) {
+ 	org.w3c.dom.NodeList nList = doc.getElementsByTagName("Item");
+
+	for (int i = 0; i < nList.getLength(); i++) {
 		Node nNode = nList.item(i);
-		/**************************************************************/
         if (nNode.getNodeType() == Node.ELEMENT_NODE) {	
 					Element eElement = (Element) nNode;
-				
-					/*Item table********************************************************************/
-					
 					String item_id = "";
 					String name = "";
 					String currently = "";
@@ -249,26 +237,37 @@ try {
 					String started = "";
 					String ends = "";
 					String seller = "";
-				    item_id = eElement.getAttribute("ItemID");
-				    name = eElement.getElementsByTagName("Name").item(0).getTextContent().replace("\"","\\\"");
-				    currently = eElement.getElementsByTagName("Currently").item(0).getTextContent().replace("$","").replace(",","");
+					String location = "";
+					String country = "";
+					String rating = "";
+					String bidder = "";
+					String amount = "";
+					String time = "";
+					
+					
+				    item_id = preprocess(eElement.getAttribute("ItemID"));
+				    name = preprocess(eElement.getElementsByTagName("Name").item(0).getTextContent());
+				    currently = preprocess(eElement.getElementsByTagName("Currently").item(0).getTextContent().replace("$","").replace(",",""));
 				    if (eElement.getElementsByTagName("Buy_Price").getLength()==1)
 				    {
-					buy_price = eElement.getElementsByTagName("Buy_Price").item(0).getTextContent().replace("$","").replace(",","");
+					buy_price = preprocess(eElement.getElementsByTagName("Buy_Price").item(0).getTextContent().replace("$","").replace(",",""));
 					}
 					else
 					{buy_price = "0.00";}	
-					first_bid = eElement.getElementsByTagName("First_Bid").item(0).getTextContent().replace("$","").replace(",","");
+					first_bid = preprocess(eElement.getElementsByTagName("First_Bid").item(0).getTextContent().replace("$","").replace(",",""));
 					number_of_bids = eElement.getElementsByTagName("Number_of_Bids").item(0).getTextContent();
-					discription = eElement.getElementsByTagName("Description").item(0).getTextContent().replace("\\","\\\\").replace("\"","\\\"");
+					discription = preprocess(eElement.getElementsByTagName("Description").item(0).getTextContent());
 									
-					started = eElement.getElementsByTagName("Started").item(0).getTextContent();
-					ends = eElement.getElementsByTagName("Ends").item(0).getTextContent();
+					started = preprocess(eElement.getElementsByTagName("Started").item(0).getTextContent());
+					ends = preprocess(eElement.getElementsByTagName("Ends").item(0).getTextContent());
 					
 					Element subeElement = (Element) eElement.getElementsByTagName("Seller").item(0);	
 					
-					seller = "\""+subeElement.getAttribute("UserID").replace("\"","\\\"")+"\"";
-					
+					seller = preprocess(subeElement.getAttribute("UserID"));
+					rating = preprocess(subeElement.getAttribute("Rating"));
+					country = preprocess(eElement.getElementsByTagName("Country").item(0).getTextContent());
+					location = preprocess(eElement.getElementsByTagName("Location").item(0).getTextContent());
+					writer_user.println(seller+","+rating+","+country+","+location);
 					try {
 			            Date parsed = format.parse(started);
 			            started = newformat.format(parsed);
@@ -284,28 +283,22 @@ try {
 			        catch(ParseException pe) {
 			            System.out.println("ERROR: Cannot parse \"" + ends + "\"");
 			        }
-					writer_item.println(item_id+","+"\""+name+"\""+","+"\""+currently+"\""+","+"\""+buy_price+"\""+","+"\""+first_bid+"\""+","+number_of_bids+","+"\""+discription+"\""+","+"\""+started+"\""+","+"\""+ends+"\""+","+seller);
+					writer_item.println(item_id+","+name+","+currently+","+buy_price+","+first_bid+","+number_of_bids+","+discription+","+started+","+ends+","+seller);
 				
 					/*ItemID Category********************************************************************/
 					
 					int length = eElement.getElementsByTagName("Category").getLength();
 					int temp = 0;
+					String category = "";
 					while(temp<length)
 					{
-						writer_id_category.println(eElement.getAttribute("ItemID")+ "," +"\"" +eElement.getElementsByTagName("Category").item(temp).getTextContent()+"\"");
+						category = eElement.getElementsByTagName("Category").item(temp).getTextContent();
+						category = preprocess(category);
+						writer_id_category.println(item_id+ "," +category);
 						temp++;
 					}
 					
-					/*Seller********************************************************************/
-					
-					
-					int last_country = eElement.getElementsByTagName("Country").getLength()-1;
-					int last_location = eElement.getElementsByTagName("Location").getLength()-1;
-					user_hashtable.put(seller,","+subeElement.getAttribute("Rating")+","+"\""+eElement.getElementsByTagName("Country").item(last_country).getTextContent().replace("\"","\\\"")+"\""+","+"\""+eElement.getElementsByTagName("Location").item(last_location).getTextContent().replace("\"","\\\"")+"\"");
-					//in output file remove duplicates
-					
-						
-						
+		
 						/*Bids********************************************************************/
 						
 						org.w3c.dom.NodeList bidList = getElementByTagNameNR(eElement,"Bids").getElementsByTagName("Bid");
@@ -322,36 +315,38 @@ try {
 						        catch(ParseException pe) {
 						            System.out.println("ERROR: Cannot parse \"" + time + "\"");
 						        }
-						String bidder = "\""+bid_subeElement.getAttribute("UserID").replace("\"","\\\"")+"\"";
-							writer_bids.println(eElement.getAttribute("ItemID")+","+bidder+","+time+","+"\""+bid_eElement.getElementsByTagName("Amount").item(0).getTextContent().replace("$","").replace(",","")+"\"");
+						bidder = bid_subeElement.getAttribute("UserID");
+						bidder = preprocess(bidder);
+						amount = bid_eElement.getElementsByTagName("Amount").item(0).getTextContent().replace("$","").replace(",","");
+						writer_bids.println(item_id+","+bidder+","+time+","+amount);
 					   			
 					/*Bidder********************************************************************/ 	
 					
-						String location = "";
-						String country = "";
+					
 						if(bid_eElement.getElementsByTagName("Country").getLength()==1)
-							country = bid_eElement.getElementsByTagName("Country").item(0).getTextContent().replace("\"","\\\"");
+							{
+								country = bid_eElement.getElementsByTagName("Country").item(0).getTextContent();
+								country = proprocess(country);
+							}
+						else
+							country = "";
 						if(bid_eElement.getElementsByTagName("Location").getLength()==1)
-						    location = bid_eElement.getElementsByTagName("Location").item(0).getTextContent().replace("\"","\\\"");
-					//	System.out.println(bid_subeElement.getAttribute("UserID")+","+bid_subeElement.getAttribute("Rating")+","+"\""+country+"\""+","+"\""+location+"\"");
-						user_hashtable.put(bidder,","+bid_subeElement.getAttribute("Rating")+","+"\""+country+"\""+","+"\""+location+"\"");
+						    {
+								location = bid_eElement.getElementsByTagName("Location").item(0).getTextContent();
+								location = preprocess(location);
+							}
+						else
+							location = "";
+						rating = bid_subeElement.getAttribute("Rating");
+						rating = preprocess(rating);
+						writer_user.println(bidder+","+rating+","+country+","+location);
 							}
 							
 								
 				}
 		}
 		
-		Enumeration names;
-	    String str;
-		names = user_hashtable.keys();
-		      while(names.hasMoreElements()) {
-		         str = (String) names.nextElement();
-		         writer_user.println(str + user_hashtable.get(str));
-		      }
-		
 
-       //System.out.println("\nCurrent Element :" + nNode.getNodeName());
-				
 		writer_user.close();
 		writer_bids.close();
 		writer_id_category.close();
