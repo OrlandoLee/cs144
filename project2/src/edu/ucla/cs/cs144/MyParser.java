@@ -166,7 +166,9 @@ class MyParser {
 
 	static String preprocess(String s)
 	{
-		return "\""+s.replace("\"","\\\"")+"\""
+		//return "\""+s.replace("\\","\\\\").replace("\"","\\\"")+"\"";
+		//return "\""+s.replaceAll("\"","\\\\\"")+"\"";
+		return "\""+s.replaceAll("\"","&quote;")+"\"";
 	}
     
     /* Process one items-???.xml file.
@@ -195,9 +197,9 @@ try {
 	////////////////
 	//file writer for user bids id_category item.
 	///////////////
-	File file_user =new File("user.dat");
+	File file_user =new File("user.tmp");
 	File file_bids =new File("bids.dat");
-	File file_id_category =new File("id_category.dat");
+	File file_id_category =new File("id_category.tmp");
 	File file_item =new File("item.dat");
 
 	if(!file_user.exists()){
@@ -256,17 +258,23 @@ try {
 					{buy_price = "0.00";}	
 					first_bid = preprocess(eElement.getElementsByTagName("First_Bid").item(0).getTextContent().replace("$","").replace(",",""));
 					number_of_bids = eElement.getElementsByTagName("Number_of_Bids").item(0).getTextContent();
-					discription = preprocess(eElement.getElementsByTagName("Description").item(0).getTextContent());
-									
-					started = preprocess(eElement.getElementsByTagName("Started").item(0).getTextContent());
-					ends = preprocess(eElement.getElementsByTagName("Ends").item(0).getTextContent());
+					discription = eElement.getElementsByTagName("Description").item(0).getTextContent();
+					if(discription.length() > 4000)
+					{
+						discription = discription.substring(0,4000);
+					}				
+					discription = preprocess(discription);
+					started = eElement.getElementsByTagName("Started").item(0).getTextContent();
+					ends = eElement.getElementsByTagName("Ends").item(0).getTextContent();
 					
 					Element subeElement = (Element) eElement.getElementsByTagName("Seller").item(0);	
 					
 					seller = preprocess(subeElement.getAttribute("UserID"));
 					rating = preprocess(subeElement.getAttribute("Rating"));
-					country = preprocess(eElement.getElementsByTagName("Country").item(0).getTextContent());
-					location = preprocess(eElement.getElementsByTagName("Location").item(0).getTextContent());
+                                        int countrylen = eElement.getElementsByTagName("Country").getLength();
+					int locationlen = eElement.getElementsByTagName("Location").getLength();
+					country = preprocess(eElement.getElementsByTagName("Country").item(countrylen - 1).getTextContent());
+					location = preprocess(eElement.getElementsByTagName("Location").item(locationlen - 1).getTextContent());
 					writer_user.println(seller+","+rating+","+country+","+location);
 					try {
 			            Date parsed = format.parse(started);
@@ -307,7 +315,7 @@ try {
 								Element bid_eElement = (Element) bid_nNode;
 								Element bid_subeElement = (Element) bid_eElement.getElementsByTagName("Bidder").item(0);
 								
-								String time = bid_eElement.getElementsByTagName("Time").item(0).getTextContent();
+								time = bid_eElement.getElementsByTagName("Time").item(0).getTextContent();
 								try {
 						            Date parsed = format.parse(time);
 						            time = newformat.format(parsed);
@@ -326,7 +334,7 @@ try {
 						if(bid_eElement.getElementsByTagName("Country").getLength()==1)
 							{
 								country = bid_eElement.getElementsByTagName("Country").item(0).getTextContent();
-								country = proprocess(country);
+								country = preprocess(country);
 							}
 						else
 							country = "";
