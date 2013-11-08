@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.io.IOException;
 
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.Document;
@@ -55,8 +56,8 @@ public class Indexer {
         String category = ""; //from item category table
         
         ResultSet rs = stmt.executeQuery("select * from item");
-        
-        
+        int count = 0;
+         
         try{
             getIndexWriter(true);
             while(rs.next()){
@@ -65,6 +66,8 @@ public class Indexer {
                 Document doc = new Document();
                 fullSearchableText = "";
                 itemId = rs.getString("item_id");
+                System.out.println(count++);
+		//System.out.println(itemId);
                 name = rs.getString ("name");
                 description = rs.getString ("description");
                 fullSearchableText = name + " "+ description+" ";
@@ -82,12 +85,12 @@ public class Indexer {
                 doc.add(new Field("category", category, Field.Store.YES, Field.Index.TOKENIZED));
                 
                 writer.addDocument(doc);
+		rs_category.close();
             }
             
             
             
             rs.close();
-            rs_category.close();
             stmt.close();
             stmt1.close();
             
