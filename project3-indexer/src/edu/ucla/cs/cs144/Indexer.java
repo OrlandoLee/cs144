@@ -1,5 +1,6 @@
 package edu.ucla.cs.cs144;
 
+import java.util.HashMap;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -61,7 +62,7 @@ public class Indexer {
         
         while(rs_category.next())
         {
-            string key = rs_category.getString("item_id");
+            String key = rs_category.getString("item_id");
             if (category_map.containsKey(key))
             {
                 category_map.put(key, category_map.get(key) + " " + rs_category.getString("category"));
