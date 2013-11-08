@@ -56,36 +56,54 @@ public class Indexer {
         String category = ""; //from item category table
         
         ResultSet rs = stmt.executeQuery("select * from item");
+        ResultSet rs_category = stmt1.executeQuery("select * from id_category");
+        HashMap<String, String> category_map = new HashMap<String, String>();
+        
+        while(rs_category.next())
+        {
+            string key = rs_category.getString("item_id");
+            if (category_map.containsKey(key))
+            {
+                category_map.put(key, category_map.get(key) + " " + rs_category.getString("category"));
+            }
+            else
+            {
+                category_map.put(key, rs_category.getString("category"));
+                
+            }
+            
+        }
+        rs_category.close();
+        
+        
         int count = 0;
-         
+        
         try{
             getIndexWriter(true);
             while(rs.next()){
                 IndexWriter writer = getIndexWriter(false);
-                category = "";
+                
                 Document doc = new Document();
                 fullSearchableText = "";
                 itemId = rs.getString("item_id");
                 System.out.println(count++);
-		//System.out.println(itemId);
+                //System.out.println(itemId);
                 name = rs.getString ("name");
                 description = rs.getString ("description");
-                fullSearchableText = name + " "+ description+" ";
+                
                 
                 doc.add(new Field("itemId", itemId, Field.Store.YES, Field.Index.NO ));
                 doc.add(new Field("name", name, Field.Store.YES, Field.Index.TOKENIZED ));
                 doc.add(new Field("description", description, Field.Store.YES, Field.Index.TOKENIZED ));
-                doc.add(new Field("content", fullSearchableText, Field.Store.NO, Field.Index.TOKENIZED ));
-                ResultSet rs_category = stmt1.executeQuery("select * from id_category where item_id ="+ itemId);
-                while(rs_category.next())
-                {
-                    category = category + " " + rs_category.getString("category");
-                    
-                }
+                
+                category = category_map.get(itemId);
+                
                 doc.add(new Field("category", category, Field.Store.YES, Field.Index.TOKENIZED));
+                fullSearchableText = name + " "+ description+" " + category;
+                doc.add(new Field("content", fullSearchableText, Field.Store.NO, Field.Index.TOKENIZED ));
                 
                 writer.addDocument(doc);
-		rs_category.close();
+                
             }
             
             
@@ -129,5 +147,5 @@ public class Indexer {
             }
         }
 		
-    }   
+    }
 }
