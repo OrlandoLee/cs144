@@ -45,7 +45,7 @@ import java.text.SimpleDateFormat;
 import java.text.ParseException;
 import java.util.Date;
 
-
+import org.apache.commons.lang3.StringEscapeUtils;
 
 class MyParser {
     
@@ -168,7 +168,9 @@ class MyParser {
 	{
 		//return "\""+s.replace("\\","\\\\").replace("\"","\\\"")+"\"";
 		//return "\""+s.replaceAll("\"","\\\\\"")+"\"";
-		return "\""+s.replaceAll("\"","&quote;")+"\"";
+		//return "\""+s.replaceAll("\"","&quote;")+"\"";
+		String str =StringEscapeUtils.escapeCsv(s);
+		return str;
 	}
     
     /* Process one items-???.xml file.

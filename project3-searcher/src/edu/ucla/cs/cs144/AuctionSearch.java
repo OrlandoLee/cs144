@@ -60,7 +60,7 @@ public class AuctionSearch implements IAuctionSearch {
 		{
 			System.out.println(e);
 		}
-		
+	}
 	public SearchResult[] basicSearch(String query, int numResultsToSkip, 
 			int numResultsToReturn) {
 		SearchResult[] r = new SearchResult[0];
