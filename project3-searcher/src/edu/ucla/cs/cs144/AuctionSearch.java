@@ -51,10 +51,16 @@ public class AuctionSearch implements IAuctionSearch {
 	private IndexSearcher searcher = null;
 	private QueryParser contentParser = null;
 	
-	public AuctionSearch() throws IOException{
-		searcher = new IndexSearcher(System.getenv("LUCENE_INDEX") + "/index1");
-		contentParser = new QueryParser("content", new StandardAnalyzer());
-	}
+	public AuctionSearch() {
+		try{
+			searcher = new IndexSearcher(System.getenv("LUCENE_INDEX") + "/index1");
+			contentParser = new QueryParser("content", new StandardAnalyzer());
+		}
+		catch (Exception e)
+		{
+			System.out.println(e);
+		}
+		
 	public SearchResult[] basicSearch(String query, int numResultsToSkip, 
 			int numResultsToReturn) {
 		SearchResult[] r = new SearchResult[0];
