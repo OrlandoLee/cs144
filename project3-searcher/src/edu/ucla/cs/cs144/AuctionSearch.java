@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.in.IOException;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -56,10 +57,11 @@ public class AuctionSearch implements IAuctionSearch {
 	}
 	public SearchResult[] basicSearch(String query, int numResultsToSkip, 
 			int numResultsToReturn) {
+		try{
 		Query parsedQuery = contentParser.parse(query);
 		Hits hits = searcher.search(parsedQuery);
 		SearchResult[] r = new SearchResult[numResultsToReturn];
-		for(int i = numResultsToSkip,int j=0; i < Math.min(hits.length(),numResultsToReturn+numResultsToSkip); i++,j++) {
+		for(int i = numResultsToSkip,j=0; i < Math.min(hits.length(),numResultsToReturn+numResultsToSkip); i++,j++) {
 		   Document doc = hits.doc(i);
 		   String itemId = doc.get("itemId");
 		   String name = doc.get("name");
@@ -68,6 +70,11 @@ public class AuctionSearch implements IAuctionSearch {
 		   r[j].setName(name);
 		//1 space may allocated wrong. 2 remember star trek means star OR trek which is the same for parse
 		 }
+		}
+		catch (Exception e)
+		{
+			System.out.println("Exeception caught in basic search");
+		}
 		
 		return r;
 	}
@@ -95,7 +102,7 @@ public class AuctionSearch implements IAuctionSearch {
 			String constrainsName = constraints[i].getFieldName();
 			if(name_constraints.containsKey(constrainsName))
 			{
-				String value = constraints[i].getFieldValue();
+				String value = constraints[i].getValue();
 				
 				//seems need to be escaped
 				//then construct the string
