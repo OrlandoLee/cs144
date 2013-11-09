@@ -61,8 +61,9 @@ public class AuctionSearch implements IAuctionSearch {
 		try{
 		Query parsedQuery = contentParser.parse(query);
 		Hits hits = searcher.search(parsedQuery);
-	
-		for(int i = numResultsToSkip,j=0; i < Math.min(hits.length(),numResultsToReturn+numResultsToSkip); i++,j++) {
+		int size = Math.min(hits.length(),numResultsToReturn+numResultsToSkip);
+		r = new SearchResult[size];
+		for(int i = numResultsToSkip,j=0; i < size; i++,j++) {
 		   Document doc = hits.doc(i);
 		   String itemId = doc.get("itemId");
 		   String name = doc.get("name");
