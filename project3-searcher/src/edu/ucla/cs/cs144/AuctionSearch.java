@@ -86,7 +86,7 @@ public class AuctionSearch implements IAuctionSearch {
 		SimpleDateFormat newformat = new SimpleDateFormat("yyyy-MM-dd HH:m:s");
 		
 		
-		HashMap<String, String> name_constraints;
+		HashMap<String, String> name_constraints = new HashMap(String,String);
 		name_constraints.put(FieldName.ItemName, "name");
 		name_constraints.put(FieldName.Category, "category");
 		name_constraints.put(FieldName.SellerId, "seller");
@@ -118,14 +118,15 @@ public class AuctionSearch implements IAuctionSearch {
 				{
 					if(second.equals("ends"))
 					{
+						/*
 						try {
 				            Date parsed = format.parse(value);
 				            value = newformat.format(parsed);
-				        }
+				        	}
 				        catch(ParseException pe) {
 				            System.out.println("ERROR: Cannot parse \"" + value + "\"");
 				        }
-						
+						*/
 					}
 					if(mysqlQuery.equals(""))
 						mysqlQuery = second + "=" +"\"" + value + "\"";//needs to be escaped
