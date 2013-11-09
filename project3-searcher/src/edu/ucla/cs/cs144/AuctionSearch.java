@@ -28,6 +28,7 @@ import edu.ucla.cs.cs144.SearchResult;
 
 import java.util.HashMap;
 import java.util.Set;
+import java.util.HashSet;
 
 public class AuctionSearch implements IAuctionSearch {
 
@@ -97,8 +98,8 @@ public class AuctionSearch implements IAuctionSearch {
 		
 		HashMap<String, String> name_constraints = new HashMap<String,String>();
 		HashMap<String, String> temp_result = new HashMap<String,String>();
-		Set <String> luceneSet = new HashSet<String>();
-		Set <String> mysqlSet = new HashSet<String>();
+		HashSet <String> luceneSet = new HashSet<String>();
+		HashSet <String> mysqlSet = new HashSet<String>();
 		
  		name_constraints.put(FieldName.ItemName, "name");
 		name_constraints.put(FieldName.Category, "category");
@@ -148,28 +149,29 @@ public class AuctionSearch implements IAuctionSearch {
 					//mysql query
 				}
 				//!!!!!!!!!TO-DO seems we also need to consider bidder
+			}		
 				
-				
-			}
+		}
 			System.out.println("mysql query: " + mysqlQuery);
 			System.out.println("lucene query: "+ luceneQuery);
 			
 			//lucene result
 			SearchResult[] result = new SearchResult[0];
+		/*
 				try{
 				Query parsedQuery = contentParser.parse(luceneQuery);
 				Hits hits = searcher.search(parsedQuery);
 				System.out.println(hits.length());
 				int size = Math.min(hits.length(),numResultsToReturn+numResultsToSkip);
-				for(int i = numResultsToSkip,j=0; i < size; i++,j++) {
-				   Document doc = hits.doc(i);
+				for(int ii = numResultsToSkip; ii < size; ii++) {
+				   Document doc = hits.doc(ii);
 				   String itemId = doc.get("itemId");
 				   String name = doc.get("name");
 				   temp_result.put(itemId,name);
 				   luceneSet.add(itemId);
 				// remember star trek means star OR trek which is the same for parse
-				 }
-				}
+		     	 }
+			}
 				catch (Exception e)
 				{
 					System.out.println("Exeception caught in basic search");
@@ -189,10 +191,10 @@ public class AuctionSearch implements IAuctionSearch {
 				//result[j] = new SearchResult(itemId,name);
 				while(rs.next())
 				{
-					mysqlSet.add(rs.getString(item_id));
+					mysqlSet.add(rs.getString("item_id"));
 				}
 				
-				luceneSet.ratainAll(mysqlSet);
+				luceneSet.retainAll(mysqlSet);
 				int finalSize = luceneSet.size();
 				result = new SearchResult[finalSize];
 				//operation on set
@@ -201,7 +203,7 @@ public class AuctionSearch implements IAuctionSearch {
 				while(iterator.hasNext())
 				{
 					String itemId = iterator.next();
-					if (temp_result.get(itemId))
+					if (temp_result.get(itemId)!=null)
 					{
 						String name = temp_result.get(itemId);
 						result[index] = new SearchResult(itemId,name);
@@ -209,12 +211,12 @@ public class AuctionSearch implements IAuctionSearch {
 				    }
 				}
 				
-		}
+		*/
 		//1 include in FieldName(done)
 		//2 connect to mysql to find out item_id of some part using  AND
 		//3 connect to lucene and search using OR???
 		//4 Final result should intersect 3 and 2
-		return result[0];
+		return result;
 	}
 
 	public String getXMLDataForItemId(String itemId) {
