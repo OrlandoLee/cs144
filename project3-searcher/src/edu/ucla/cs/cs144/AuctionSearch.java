@@ -6,7 +6,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.in.IOException;
+import java.io.IOException;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -57,17 +57,17 @@ public class AuctionSearch implements IAuctionSearch {
 	}
 	public SearchResult[] basicSearch(String query, int numResultsToSkip, 
 			int numResultsToReturn) {
+		SearchResult[] r = new SearchResult[0];
 		try{
 		Query parsedQuery = contentParser.parse(query);
 		Hits hits = searcher.search(parsedQuery);
-		SearchResult[] r = new SearchResult[numResultsToReturn];
+	
 		for(int i = numResultsToSkip,j=0; i < Math.min(hits.length(),numResultsToReturn+numResultsToSkip); i++,j++) {
 		   Document doc = hits.doc(i);
 		   String itemId = doc.get("itemId");
 		   String name = doc.get("name");
 		   System.out.println(itemId + ":" + name);
-		   r[j].setItemId(itemId);
-		   r[j].setName(name);
+		   r[j] = new SearchResult(itemId,name);
 		//1 space may allocated wrong. 2 remember star trek means star OR trek which is the same for parse
 		 }
 		}
@@ -76,7 +76,7 @@ public class AuctionSearch implements IAuctionSearch {
 			System.out.println("Exeception caught in basic search");
 		}
 		
-		return r;
+		return r[0];
 	}
 
 	public SearchResult[] advancedSearch(SearchConstraint[] constraints, 
