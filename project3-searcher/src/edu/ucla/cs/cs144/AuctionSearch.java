@@ -186,7 +186,7 @@ public class AuctionSearch implements IAuctionSearch {
 		        }
 		        Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(mysqlQuery);
-				result[j] = new SearchResult(itemId,name);
+				//result[j] = new SearchResult(itemId,name);
 				while(rs.next())
 				{
 					mysqlSet.add(rs.getString(item_id));
