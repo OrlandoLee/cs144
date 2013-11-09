@@ -87,7 +87,7 @@ public class Indexer {
                 Document doc = new Document();
                 fullSearchableText = "";
                 itemId = rs.getString("item_id");
-                System.out.println(count++);
+                //System.out.println(count++);
                 //System.out.println(itemId);
                 name = rs.getString ("name");
                 description = rs.getString ("description");
