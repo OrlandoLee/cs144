@@ -1,5 +1,7 @@
 package edu.ucla.cs.cs144;
 
+import java.lang.*;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,6 +25,8 @@ import edu.ucla.cs.cs144.DbManager;
 import edu.ucla.cs.cs144.SearchConstraint;
 import edu.ucla.cs.cs144.SearchResult;
 
+import java.util.HashMap;
+
 public class AuctionSearch implements IAuctionSearch {
 
 	/* 
@@ -43,16 +47,95 @@ public class AuctionSearch implements IAuctionSearch {
          * placed at src/edu/ucla/cs/cs144.
          *
          */
+	private IndexSearcher searcher = null;
+	private QueryParser contentParser = null;
 	
+	public AuctionSearch() throws IOException{
+		searcher = new IndexSearcher(System.getenv("LUCENE_INDEX") + "/index1");
+		contentParser = new QueryParser("content", new StandardAnalyzer());
+	}
 	public SearchResult[] basicSearch(String query, int numResultsToSkip, 
 			int numResultsToReturn) {
-		// TODO: Your code here!
-		return new SearchResult[0];
+		Query parsedQuery = contentParser.parse(query);
+		Hits hits = searcher.search(parsedQuery);
+		SearchResult[] r = new SearchResult[numResultsToReturn];
+		for(int i = numResultsToSkip,int j=0; i < Math.min(hits.length(),numResultsToReturn+numResultsToSkip); i++,j++) {
+		   Document doc = hits.doc(i);
+		   String itemId = doc.get("itemId");
+		   String name = doc.get("name");
+		   System.out.println(itemId + ":" + name);
+		   r[j].setItemId(itemId);
+		   r[j].setName(name);
+		//1 space may allocated wrong. 2 remember star trek means star OR trek which is the same for parse
+		 }
+		
+		return r;
 	}
 
 	public SearchResult[] advancedSearch(SearchConstraint[] constraints, 
 			int numResultsToSkip, int numResultsToReturn) {
 		// TODO: Your code here!
+		SimpleDateFormat format = new SimpleDateFormat("MMM-dd-yy H:m:s");
+		SimpleDateFormat newformat = new SimpleDateFormat("yyyy-MM-dd HH:m:s");
+		
+		
+		HashMap<String, String> name_constraints;
+		name_constraints.put(FieldName.ItemName, "name");
+		name_constraints.put(FieldName.Category, "category");
+		name_constraints.put(FieldName.SellerId, "seller");
+		name_constraints.put(FieldName.BuyPrice, "buy_price");
+		name_constraints.put(FieldName.BidderId, "bidder");//where it was used? another table
+		name_constraints.put(FieldName.EndTime, "ends");
+		name_constraints.put(FieldName.Description, "description");
+		
+		String mysqlQuery = "";
+		String luceneQuery = "";
+		for(int i=0; i<constraints.length; i++)
+		{
+			String constrainsName = constraints[i].getFieldName();
+			if(name_constraints.containsKey(constrainsName))
+			{
+				String value = constraints[i].getFieldValue();
+				
+				//seems need to be escaped
+				//then construct the string
+				String second = name_constraints.get(constrainsName);
+				if(second.equals("category") || second.equals("name") || second.equals("description"))
+				{
+					if(luceneQuery.equals(""))
+						luceneQuery = second + ":" + value  ;// value needs to be escaped
+					else
+						luceneQuery = luceneQuery +"AND" + second + ":" + value ; //also value needs to be escaped
+				}
+				else
+				{
+					if(second.equals("ends"))
+					{
+						try {
+				            Date parsed = format.parse(value);
+				            value = newformat.format(parsed);
+				        }
+				        catch(ParseException pe) {
+				            System.out.println("ERROR: Cannot parse \"" + value + "\"");
+				        }
+						
+					}
+					if(mysqlQuery.equals(""))
+						mysqlQuery = second + "=" +"\"" + value + "\"";//needs to be escaped
+					else
+						mysqlQuery = mysqlQuery + "AND" + second + "=" +"\"" + value + "\"";//needs to be escaped
+					//mysql query
+				}
+				
+				
+			}
+			System.out.println("mysql query: " + mysqlQuery);
+			System.out.println("lucene query: "+ luceneQuery);
+		}
+		//1 include in FieldName(done)
+		//2 connect to mysql to find out item_id of some part using  AND
+		//3 connect to lucene and search using OR???
+		//4 Final result should intersect 3 and 2
 		return new SearchResult[0];
 	}
 
