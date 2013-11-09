@@ -76,7 +76,7 @@ public class AuctionSearch implements IAuctionSearch {
 			System.out.println("Exeception caught in basic search");
 		}
 		
-		return r[0];
+		return r;
 	}
 
 	public SearchResult[] advancedSearch(SearchConstraint[] constraints, 
@@ -86,7 +86,7 @@ public class AuctionSearch implements IAuctionSearch {
 		SimpleDateFormat newformat = new SimpleDateFormat("yyyy-MM-dd HH:m:s");
 		
 		
-		HashMap<String, String> name_constraints = new HashMap(String,String);
+		HashMap<String, String> name_constraints = new HashMap<String,String>();
 		name_constraints.put(FieldName.ItemName, "name");
 		name_constraints.put(FieldName.Category, "category");
 		name_constraints.put(FieldName.SellerId, "seller");
