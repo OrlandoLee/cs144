@@ -61,13 +61,15 @@ public class AuctionSearch implements IAuctionSearch {
 		try{
 		Query parsedQuery = contentParser.parse(query);
 		Hits hits = searcher.search(parsedQuery);
+		System.out.println("size should be 72");
+		System.out.println(hits.length());
 		int size = Math.min(hits.length(),numResultsToReturn+numResultsToSkip);
 		r = new SearchResult[size];
 		for(int i = numResultsToSkip,j=0; i < size; i++,j++) {
 		   Document doc = hits.doc(i);
 		   String itemId = doc.get("itemId");
 		   String name = doc.get("name");
-		   System.out.println(itemId + ":" + name);
+		   //System.out.println(itemId + ":" + name);
 		   r[j] = new SearchResult(itemId,name);
 		//1 space may allocated wrong. 2 remember star trek means star OR trek which is the same for parse
 		 }
