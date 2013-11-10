@@ -1,4 +1,3 @@
-1
 package edu.ucla.cs.cs144;
 
 import java.lang.*;
@@ -114,8 +113,9 @@ public class AuctionSearch implements IAuctionSearch {
             name_constraints.put(FieldName.EndTime, "ends");
             name_constraints.put(FieldName.Description, "description");
             
-            String mysqlQuery = "select item_id,name from item where ";
+            String mysqlQuery = "";
             String luceneQuery = "";
+	    int bidindex = -1;
             for(int i=0; i<constraints.length; i++)
             {
                 String constrainsName = constraints[i].getFieldName();
@@ -129,9 +129,9 @@ public class AuctionSearch implements IAuctionSearch {
                     if(second.equals("category") || second.equals("name") || second.equals("description"))
                     {
                         if(luceneQuery.equals(""))
-                            luceneQuery = second + ":" + value  ;// value needs to be escaped
+                            luceneQuery = second + " : " + value  ;// value needs to be escaped
                         else
-                            luceneQuery = luceneQuery +"AND" + second + ":" + value ; //also value needs to be escaped
+                            luceneQuery = luceneQuery +" AND " + second + " : " + value ; //also value needs to be escaped
                     }
                     else
                     {
@@ -139,108 +139,51 @@ public class AuctionSearch implements IAuctionSearch {
                         {
 				            Date parsed = format.parse(value);
 				            value = newformat.format(parsed);
-<<<<<<< HEAD
-                        }
-				        catch(ParseException pe) {
-				            System.out.println("ERROR: Cannot parse \"" + value + "\"");
-				        }
-						
-					}
-					if(mysqlQuery.equals(""))
-						mysqlQuery = second + "=" +"\"" + value + "\"";//needs to be escaped
-					else
-						mysqlQuery = mysqlQuery + "AND" + second + "=" +"\"" + value + "\"";//needs to be escaped
-					//mysql query
-				}
-				//!!!!!!!!!TO-DO seems we also need to consider bidder
-			}
-            
-		}
-        System.out.println("mysql query: " + mysqlQuery);
-        System.out.println("lucene query: "+ luceneQuery);
-        
-        //lucene result
-        SearchResult[] result = new SearchResult[0];
-		/*
-         try{
-         Query parsedQuery = contentParser.parse(luceneQuery);
-         Hits hits = searcher.search(parsedQuery);
-         System.out.println(hits.length());
-         int size = Math.min(hits.length(),numResultsToReturn+numResultsToSkip);
-         for(int ii = numResultsToSkip; ii < size; ii++) {
-         Document doc = hits.doc(ii);
-         String itemId = doc.get("itemId");
-         String name = doc.get("name");
-         temp_result.put(itemId,name);
-         luceneSet.add(itemId);
-         // remember star trek means star OR trek which is the same for parse
-         }
-         }
-         catch (Exception e)
-         {
-         System.out.println("Exeception caught in basic search");
-         }
-         
-         //mysql result
-         Connection conn = null;
-         
-         // create a connection to the database to retrieve Items from MySQL
-         try {
-         conn = DbManager.getConnection(true);
-         } catch (SQLException ex) {
-         System.out.println(ex);
-         }
-         Statement stmt = conn.createStatement();
-         ResultSet rs = stmt.executeQuery(mysqlQuery);
-         //result[j] = new SearchResult(itemId,name);
-         while(rs.next())
-         {
-         mysqlSet.add(rs.getString("item_id"));
-         }
-         
-         luceneSet.retainAll(mysqlSet);
-         int finalSize = luceneSet.size();
-         result = new SearchResult[finalSize];
-         //operation on set
-         Iterator<String> iterator = luceneSet.iterator();
-         int index = 0;
-         while(iterator.hasNext())
-         {
-         String itemId = iterator.next();
-         if (temp_result.get(itemId)!=null)
-         {
-         String name = temp_result.get(itemId);
-         result[index] = new SearchResult(itemId,name);
-         index++;
-         }
-         }
-         
-         */
-=======
                             
                         }
-                        if(mysqlQuery.equals("select item_id,name from item where "))
-                            mysqlQuery = mysqlQuery + second + "=" +"\"" + value + "\"";//needs to be escaped
+			if(second.equals("bidder"))
+			{
+			 bidindex = i;
+			}
+			else
+			{
+                        if(mysqlQuery.equals(""))
+                            mysqlQuery = "select item_id,name from item where " + second + "=" +"\"" + value + "\"";//needs to be escaped
                         else
-                            mysqlQuery = mysqlQuery + "AND" + second + "=" +"\"" + value + "\"";//needs to be escaped
-                        //mysql query
+                            mysqlQuery = mysqlQuery + " AND " + second + "=" +"\"" + value + "\"";//needs to be escaped
+                        }
+			//mysql query
                     }
-                    //!!!!!!!!!TO-DO seems we also need to consider bidder
-                }
+		}
+		}
+			if(bidindex!=-1)
+			{
+				String bidder = " \"" + constraints[bidindex].getValue() + "\" ";
+				if(mysqlQuery.equals(""))
+				     {
+					mysqlQuery = "select bids.item_id,name from item as A join bids on A.item_id = bids.item_id where bids.user_id = "+ bidder;
+				     }
+				else
+				{
+				mysqlQuery = "select A.item_id, name from (" +mysqlQuery + ")  as A join bids on A.item_id = bids.item_id where user_id = "+ bidder;
+                		}
+			}    //!!!!!!!!!TO-DO seems we also need to consider bidder
+                
 				
-            }
+           
 			System.out.println("mysql query: " + mysqlQuery);
 			System.out.println("lucene query: "+ luceneQuery);
 			
 			//lucene result
 			
             
-            
-            Query parsedQuery = contentParser.parse(luceneQuery);
+ 	    if(!luceneQuery.equals(""))           
+           {
+	     Query parsedQuery = contentParser.parse(luceneQuery);
             Hits hits = searcher.search(parsedQuery);
-            System.out.println(hits.length());
-            int size = Math.min(hits.length(),numResultsToReturn+numResultsToSkip);
-            for(int ii = numResultsToSkip; ii < size; ii++) {
+            //System.out.println(hits.length());
+            int size = hits.length();
+            for(int ii = 0; ii < size; ii++) {
                 Document doc = hits.doc(ii);
                 String itemId = doc.get("itemId");
                 String name = doc.get("name");
@@ -248,10 +191,11 @@ public class AuctionSearch implements IAuctionSearch {
                 luceneSet.add(itemId);
 				// remember star trek means star OR trek which is the same for parse
             }
-			
+	   }		
 			//mysql result
 			
-            
+            if(!mysqlQuery.equals(""))
+	{
             // create a connection to the database to retrieve Items from MySQL
             try {
                 conn = DbManager.getConnection(true);
@@ -260,38 +204,58 @@ public class AuctionSearch implements IAuctionSearch {
             }
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(mysqlQuery);
-            //result[j] = new SearchResult(itemId,name);
-            while(rs.next())
-            {
-                mysqlSet.add(rs.getString("item_id"));
-            }
             
+	//result[j] = new SearchResult(itemId,name);
+            while(rs.next())
+            {  
+                mysqlSet.add(rs.getString("item_id"));
+            	temp_result.put(rs.getString("item_id"),rs.getString("name"));
+	    }
+	}
+            if(!mysqlQuery.equals("")&&!luceneQuery.equals("")) 
             luceneSet.retainAll(mysqlSet);
-            int finalSize = luceneSet.size();
-            result = new SearchResult[finalSize];
-            //operation on set
+	    else
+	    luceneSet.addAll(mysqlSet);
+	   
+            int finalSize = Math.min( (luceneSet.size()-numResultsToSkip), numResultsToReturn);
+	    result = new SearchResult[finalSize];
+	    //operation on set
             Iterator<String> iterator = luceneSet.iterator();
             int index = 0;
-            while(iterator.hasNext())
+	    int count = 0; 
+           while(iterator.hasNext())
             {
+		if(count>=numResultsToSkip && count<finalSize+numResultsToSkip)
+		{
                 String itemId = iterator.next();
-                if (temp_result.get(itemId)!=null)
-                {
+		if (temp_result.get(itemId)!=null)
+                  {
                     String name = temp_result.get(itemId);
-                    result[index] = new SearchResult(itemId,name);
+		    result[index] =  new SearchResult(itemId, name);
                     index++;
-                }
+                  }
+		else
+		{
+		  System.out.println("ERROR!!!");	
+		}
+		}
+		else
+		  iterator.next();
+
+		count++;
             }
+
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (ParseException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        } catch (CorruptIndexException e) {
+        } //catch (CorruptIndexException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
+           // e.printStackTrace();
+        //} 
+	catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (java.text.ParseException e) {
@@ -299,7 +263,6 @@ public class AuctionSearch implements IAuctionSearch {
             e.printStackTrace();
         }
 		
->>>>>>> 290856ad6ca3b879d26f9a699dbb7fdb4833f426
 		//1 include in FieldName(done)
 		//2 connect to mysql to find out item_id of some part using  AND
 		//3 connect to lucene and search using OR???
