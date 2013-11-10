@@ -92,50 +92,53 @@ public class AuctionSearch implements IAuctionSearch {
 	public SearchResult[] advancedSearch(SearchConstraint[] constraints,
                                          int numResultsToSkip, int numResultsToReturn) {
 		// TODO: Your code here!
-		SimpleDateFormat format = new SimpleDateFormat("MMM-dd-yy H:m:s");
-		SimpleDateFormat newformat = new SimpleDateFormat("yyyy-MM-dd HH:m:s");
-		
-		
-		HashMap<String, String> name_constraints = new HashMap<String,String>();
-		HashMap<String, String> temp_result = new HashMap<String,String>();
-		HashSet <String> luceneSet = new HashSet<String>();
-		HashSet <String> mysqlSet = new HashSet<String>();
-		
- 		name_constraints.put(FieldName.ItemName, "name");
-		name_constraints.put(FieldName.Category, "category");
-		name_constraints.put(FieldName.SellerId, "seller");
-		name_constraints.put(FieldName.BuyPrice, "buy_price");
-		name_constraints.put(FieldName.BidderId, "bidder");//where it was used? another table
-		name_constraints.put(FieldName.EndTime, "ends");
-		name_constraints.put(FieldName.Description, "description");
-		
-		String mysqlQuery = "select item_id,name from item where ";
-		String luceneQuery = "";
-		for(int i=0; i<constraints.length; i++)
-		{
-			String constrainsName = constraints[i].getFieldName();
-			if(name_constraints.containsKey(constrainsName))
-			{
-				String value = constraints[i].getValue();
-				
-				//seems need to be escaped
-				//then construct the string
-				String second = name_constraints.get(constrainsName);
-				if(second.equals("category") || second.equals("name") || second.equals("description"))
-				{
-					if(luceneQuery.equals(""))
-						luceneQuery = second + ":" + value  ;// value needs to be escaped
-					else
-						luceneQuery = luceneQuery +"AND" + second + ":" + value ; //also value needs to be escaped
-				}
-				else
-				{
-					if(second.equals("ends"))
-					{
-						
-						try {
+        Connection conn = null;
+        SearchResult[] result = new SearchResult[0];
+        
+        try{
+            SimpleDateFormat format = new SimpleDateFormat("MMM-dd-yy H:m:s");
+            SimpleDateFormat newformat = new SimpleDateFormat("yyyy-MM-dd HH:m:s");
+            
+            
+            HashMap<String, String> name_constraints = new HashMap<String,String>();
+            HashMap<String, String> temp_result = new HashMap<String,String>();
+            HashSet <String> luceneSet = new HashSet<String>();
+            HashSet <String> mysqlSet = new HashSet<String>();
+            
+            name_constraints.put(FieldName.ItemName, "name");
+            name_constraints.put(FieldName.Category, "category");
+            name_constraints.put(FieldName.SellerId, "seller");
+            name_constraints.put(FieldName.BuyPrice, "buy_price");
+            name_constraints.put(FieldName.BidderId, "bidder");//where it was used? another table
+            name_constraints.put(FieldName.EndTime, "ends");
+            name_constraints.put(FieldName.Description, "description");
+            
+            String mysqlQuery = "select item_id,name from item where ";
+            String luceneQuery = "";
+            for(int i=0; i<constraints.length; i++)
+            {
+                String constrainsName = constraints[i].getFieldName();
+                if(name_constraints.containsKey(constrainsName))
+                {
+                    String value = constraints[i].getValue();
+                    
+                    //seems need to be escaped
+                    //then construct the string
+                    String second = name_constraints.get(constrainsName);
+                    if(second.equals("category") || second.equals("name") || second.equals("description"))
+                    {
+                        if(luceneQuery.equals(""))
+                            luceneQuery = second + ":" + value  ;// value needs to be escaped
+                        else
+                            luceneQuery = luceneQuery +"AND" + second + ":" + value ; //also value needs to be escaped
+                    }
+                    else
+                    {
+                        if(second.equals("ends"))
+                        {
 				            Date parsed = format.parse(value);
 				            value = newformat.format(parsed);
+<<<<<<< HEAD
                         }
 				        catch(ParseException pe) {
 				            System.out.println("ERROR: Cannot parse \"" + value + "\"");
@@ -212,6 +215,90 @@ public class AuctionSearch implements IAuctionSearch {
          }
          
          */
+=======
+                            
+                        }
+                        if(mysqlQuery.equals("select item_id,name from item where "))
+                            mysqlQuery = mysqlQuery + second + "=" +"\"" + value + "\"";//needs to be escaped
+                        else
+                            mysqlQuery = mysqlQuery + "AND" + second + "=" +"\"" + value + "\"";//needs to be escaped
+                        //mysql query
+                    }
+                    //!!!!!!!!!TO-DO seems we also need to consider bidder
+                }
+				
+            }
+			System.out.println("mysql query: " + mysqlQuery);
+			System.out.println("lucene query: "+ luceneQuery);
+			
+			//lucene result
+			
+            
+            
+            Query parsedQuery = contentParser.parse(luceneQuery);
+            Hits hits = searcher.search(parsedQuery);
+            System.out.println(hits.length());
+            int size = Math.min(hits.length(),numResultsToReturn+numResultsToSkip);
+            for(int ii = numResultsToSkip; ii < size; ii++) {
+                Document doc = hits.doc(ii);
+                String itemId = doc.get("itemId");
+                String name = doc.get("name");
+                temp_result.put(itemId,name);
+                luceneSet.add(itemId);
+				// remember star trek means star OR trek which is the same for parse
+            }
+			
+			//mysql result
+			
+            
+            // create a connection to the database to retrieve Items from MySQL
+            try {
+                conn = DbManager.getConnection(true);
+            } catch (SQLException ex) {
+                System.out.println(ex);
+            }
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(mysqlQuery);
+            //result[j] = new SearchResult(itemId,name);
+            while(rs.next())
+            {
+                mysqlSet.add(rs.getString("item_id"));
+            }
+            
+            luceneSet.retainAll(mysqlSet);
+            int finalSize = luceneSet.size();
+            result = new SearchResult[finalSize];
+            //operation on set
+            Iterator<String> iterator = luceneSet.iterator();
+            int index = 0;
+            while(iterator.hasNext())
+            {
+                String itemId = iterator.next();
+                if (temp_result.get(itemId)!=null)
+                {
+                    String name = temp_result.get(itemId);
+                    result[index] = new SearchResult(itemId,name);
+                    index++;
+                }
+            }
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (CorruptIndexException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (java.text.ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+		
+>>>>>>> 290856ad6ca3b879d26f9a699dbb7fdb4833f426
 		//1 include in FieldName(done)
 		//2 connect to mysql to find out item_id of some part using  AND
 		//3 connect to lucene and search using OR???
