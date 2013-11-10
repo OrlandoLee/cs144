@@ -167,7 +167,7 @@ public class AuctionSearch implements IAuctionSearch {
 				{
 				mysqlQuery = "select A.item_id, name from (" +mysqlQuery + ")  as A join bids on A.item_id = bids.item_id where user_id = "+ bidder;
                 		}
-			}    //!!!!!!!!!TO-DO seems we also need to consider bidder
+			}   
                 
 				
            
