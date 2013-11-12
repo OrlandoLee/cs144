@@ -25,9 +25,14 @@ public class AuctionSearchTest {
 			System.out.println(result.getItemId() + ": " + result.getName());
 		}
 		
-		SearchConstraint constraint =
+//		SearchConstraint constraint =
 		    new SearchConstraint(FieldName.BuyPrice, "5.99"); 
-		SearchConstraint[] constraints = {constraint};
+		SearchConstraint constraint1 = new SearchConstraint(FieldName.EndTime,"Dec-14-01 21:00:05");
+	//	SearchConstraint constraint = new SearchConstraint(FieldName.ItemName,"Precious Moments");
+		//SearchConstraint constraint = new SearchConstraint(FieldName.BidderId,"potzer12");
+	//	SearchConstraint constraint1 = new SearchConstraint(FieldName.SellerId,"waltera317a");
+	//	SearchConstraint constraint1 = new SearchConstraint(FieldName.Category,"kitchenware");
+		SearchConstraint[] constraints = {constraint1};
 		SearchResult[] advancedResults = as.advancedSearch(constraints, 0, 20);
 		System.out.println("Advanced Seacrh");
 		System.out.println("Received " + advancedResults.length + " results");
@@ -35,7 +40,8 @@ public class AuctionSearchTest {
 			System.out.println(result.getItemId() + ": " + result.getName());
 		}
 		
-		String itemId = "1497595357";
+		//String itemId = "1497595357";
+		String itemId = "1497497054";
 		String item = as.getXMLDataForItemId(itemId);
 		System.out.println("XML data for ItemId: " + itemId);
 		System.out.println(item);

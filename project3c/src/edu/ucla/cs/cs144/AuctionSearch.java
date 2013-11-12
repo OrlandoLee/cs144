@@ -271,7 +271,7 @@ public class AuctionSearch implements IAuctionSearch {
 	public String getXMLDataForItemId(String itemId) {
 		// TODO: Your code here!
 		Connection conn = null;
-		String xml=null;
+		String xml="";
 		try
 		{
 			SimpleDateFormat newformat = new SimpleDateFormat("MMM-dd-yy H:m:s");
@@ -299,6 +299,7 @@ public class AuctionSearch implements IAuctionSearch {
 			tag_table.put("started","Started");
 			tag_table.put("ends","Ends");
 			tag_table.put("description","Description");
+			tag_table.put("seller","Seller");
 			//TO-DO FILL OUT THE TABLE
 			
             while(rs.next())
@@ -311,14 +312,14 @@ public class AuctionSearch implements IAuctionSearch {
 				ResultSet category_rs = category_stmt.executeQuery(category_query);
 				while(category_rs.next())
 				{
-					xml + = "  " + getXMLLine(tag_table.get("category"), category_rs);
+					xml += "  " + getXMLLine(tag_table.get("category"), category_rs);
 				}
 				category_rs.close();
 				category_stmt.close();
 				
 				xml += "  " + getXMLLine(tag_table.get("currently"), rs);
 				
-				if (!getXMLLine(tag_table.get("buy_price"), result).equals("<Buy_Price>$0.00</Buy_Price>\n"))
+				if (!getXMLLine(tag_table.get("buy_price"), rs).equals("<Buy_Price>$0.00</Buy_Price>\n"))
 			         xml += "  " + getXMLLine(tag_table.get("buy_price"), rs); 
 			                               
 			 	xml += "  " + getXMLLine(tag_table.get("first_bid"), rs);                // Parse First Bid tag
@@ -329,7 +330,7 @@ public class AuctionSearch implements IAuctionSearch {
 				ResultSet bids_rs = bids_stmt.executeQuery(bids_query);
 				xml += "  " + "<" + tag_table.get("bids") + ">\n";
 				
-				while (bids_result.next()) {
+				while (bids_rs.next()) {
 			                                 	xml += "    <" + tag_table.get("bid") + ">\n";
 			                                    xml += "      <" + tag_table.get("bidder") + " UserID=\"" + bids_rs.getString("user_id") + "\" ";
 			                                    xml += "Rating=\"" + bids_rs.getString("rating") + "\">\n";
@@ -337,7 +338,7 @@ public class AuctionSearch implements IAuctionSearch {
 			                        			xml += "        " + getXMLLine(tag_table.get("country"), bids_rs);      // Find Bidder's Country if present
 			                                    xml += "      </" + tag_table.get("bidder") + ">\n";
 												Date bid_parsed = format.parse(bids_rs.getString("time"));
-										        bid_value = newformat.format(parsed);
+										       String  bid_value = newformat.format(bid_parsed);
 			                                    xml += "      <" + tag_table.get("time") + ">" + bid_value + "</" + tag_table.get("time") + ">\n";
 			                                    xml += "      " + getXMLLine(tag_table.get("amount"), bids_rs);
 			                                    xml += "    </" + tag_table.get("bid") + ">\n";
@@ -351,7 +352,7 @@ public class AuctionSearch implements IAuctionSearch {
 				 xml += "  " + getXMLLine(tag_table.get("country"), rs);
  				 xml += "  " + getXMLLine(tag_table.get("started"), rs);                  // Parse Started tag
 				 xml += "  " + getXMLLine(tag_table.get("ends"), rs);                             // Parse Ends tag
-  				 xml += "  <" + tag_table.get("tag") + " ";                                                // Parse Seller tag
+  				 xml += "  <" + tag_table.get("seller") + " ";                                                // Parse Seller tag
 				 xml += "UserID" + "=\"" + rs.getString("seller") + "\" ";
 				 xml += "Rating=\"" + rs.getString("rating") + "\"/>\n";
 				 xml += "  " + getXMLLine(tag_table.get("description"), rs);              // Parse Description tag
@@ -367,13 +368,9 @@ public class AuctionSearch implements IAuctionSearch {
         } catch (ParseException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        } catch (CorruptIndexException e) {
+       // }   catch (IOException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
-        } 
-		  catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+         //   e.printStackTrace();
         } catch (java.text.ParseException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -382,15 +379,21 @@ public class AuctionSearch implements IAuctionSearch {
 		return xml;
 	}
 	
-	private String getXMLLine(String tag, ResultSet r) throws SQLException {
-	                String xml = "<" + tag + ">";
+	private String getXMLLine(String tag, ResultSet r) throws SQLException,ParseException,java.text.ParseException {
+	                SimpleDateFormat newformat = new SimpleDateFormat("MMM-dd-yy H:m:s");
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:m:s");
+			String xml = "<" + tag + ">";
 	                if (tag.equals("Currently") || tag.equals("Buy_Price") || tag.equals("First_Bid")  || tag.equals("Amount"))
 	                        xml += "$";
 	                if (tag.equals("Started") || tag.equals("Ends") || tag.equals("Time"))
 	                       { 
+							//try{
 							 	Date parsed = format.parse(r.getString(tag));
-					            value = newformat.format(parsed);
-								xml += value;
+					            String value = newformat.format(parsed);
+							xml += value;
+						//	}catch(ParseException pe){
+						//		System.out.println(pe);
+						//	}	
 							}
 	                else
 	                        xml += escape(r.getString(tag));
