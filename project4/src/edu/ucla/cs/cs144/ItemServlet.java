@@ -16,5 +16,13 @@ public class ItemServlet extends HttpServlet implements Servlet {
         // your codes here
 		String itemId = request.getParameter("id");
 		String xml = AuctionSearchClient.getXMLDataForItemId(itemId);
+		
+		
+		
+		
+		//Item item = new Item(itemID, name, seller, description, minimumBid, buyNowPrice, startTime, endTime, bidArray, categoryArray);
+    	
+    	request.setAttribute("item", xml);
+    	request.getRequestDispatcher("/item.jsp").forward(request, response);
     }
 }
