@@ -14,5 +14,7 @@ public class ItemServlet extends HttpServlet implements Servlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         // your codes here
+		String itemId = request.getParameter("id");
+		String xml = AuctionSearchClient.getXMLDataForItemId(itemId);
     }
 }
