@@ -19,15 +19,19 @@
 	%>
 </head>
 <body>
+	<form method="Get" ACTION = "./item">
+		<br>
+		itemID:
+		<input type ="text" name="id">
+		<input type="submit" name="search">
+	</form>
+	
 	<%=name%><br/>
 	Seller: <%=sellerID%>(<%=sellerRating%>)<br/>
 	<%=sellerLocation%>,<%=sellerCountry%><br/>
-	
-	Current Price: <%= bids.length > 0 ? bids[bids.length-1].getbidAmount() : firstBid%><br/>
-	
-	 <% if (buyPrice!= null) { %>
-        Buy Now Price: $<%= buyPrice %><br/>
-        <% } %>
+	Current Price: <%= bidArray.length > 0 ? bidArray[bidArray.length-1].getbidAmount() : firstBid %><br/>
+	false
+        Buy Now Price: <%= buyPrice %><br/>
 
         Start Time: <%= startTime %><br/>
         End Time: <%= endTime %><br/>
@@ -45,7 +49,7 @@
 			<table border="1px solid blue" cellpadding="0" cellspacing="0">
 	            <tr><td>Bidder</td><td>Bid Time</td><td>Bid Amount</td></tr>
 	            <% for (Bid bid : bidArray) { %>
-	            <tr><td><%= bid.getbidderID() %> (<%= bid.getbidderRating() %>)</td><td>$<%= bid.getTime() %></td><td><%= bid.getbidAmount() %></td></tr> 
+	            <tr><td><%= bid.getbidderID() %> (<%= bid.getbidderRating() %>)</td><td><%= bid.getTime() %></td><td><%= bid.getbidAmount() %></td></tr> 
 	            <% } %>
 	        </table>
 	        <% } %>

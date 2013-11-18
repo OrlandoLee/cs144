@@ -21,7 +21,7 @@ import org.w3c.dom.Text;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.ErrorHandler;
-
+import org.xml.sax.InputSource;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
@@ -50,7 +50,6 @@ public class ItemServlet extends HttpServlet implements Servlet {
 	    Element itemElement = doc.getDocumentElement();		
 		
 		
-		String itemId = itemElement.getAttribute("ItemId");
 		String name = getElementTextByTagNameNR(itemElement,"Name");
 		String sellerLocation = getElementTextByTagNameNR(itemElement,"Location");
 		String sellerCountry = getElementTextByTagNameNR(itemElement,"Country");
@@ -72,10 +71,10 @@ public class ItemServlet extends HttpServlet implements Servlet {
 	    String sellerRating = sellerElement.getAttribute("Rating");
 	
 	    Element categoryElements[] = getElementsByTagNameNR(itemElement,"Category");
-		String categoryArray = new String[categoryElements.getLength()];
+		String[] categoryArray = new String[categoryElements.length];
 		
 		int i=0;
-		For (Element category : categoryElements)
+		for (Element category : categoryElements)
 		{
 			String categoryName = getElementText(category);
 			categoryArray[i++] = categoryName;
@@ -85,7 +84,7 @@ public class ItemServlet extends HttpServlet implements Servlet {
 		// Parse bids
 		Element bidsParent = getElementByTagNameNR(itemElement, "Bids");
 	    Element bidElements[] = getElementsByTagNameNR(bidsParent, "Bid");
-		Bid bidArray = new Bid[bidElements.getLength()];//implement later
+		Bid[] bidArray = new Bid[bidElements.length];//implement later
 		
 		int j=0;
 		for(Element bidElement : bidElements)
@@ -101,7 +100,7 @@ public class ItemServlet extends HttpServlet implements Servlet {
 			String bidderCountry = getElementTextByTagNameNR(bidderElement, "Country");	
 			
 			Bid bid = new Bid(bidTime, bidAmount, bidderID, bidderRating, bidderLocation, bidderCountry);
-			bidArry[j++] = bid;	    
+			bidArray[j++] = bid;	    
 		}
 		
 		Arrays.sort(bidArray, Bid.BidTimeComparator);
