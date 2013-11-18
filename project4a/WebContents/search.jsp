@@ -27,15 +27,15 @@
 	
 	<%for (SearchResult r : rs) { %>
 	  name: <%=r.getName()%>
-	  itemId:<a href ="/eBay/item?id=<%r.getItemId() %>
+	  itemId:<a href ="/eBay/item?id=<%=r.getItemId()%>"> <%=r.getItemId()%></a>
 	<br>
 	<% }%>
 	
 	<% if (numResultsToSkip > 0) { %>
 	<a href="/eBay/search?q=<%= query %>&numResultsToSkip=<%= numResultsToSkip - 10 >= 0 ? numResultsToSkip - 10 : 0 %>&numResultsToReturn=10">Prev</a>
 	<% } 
-	if (results.length == 10) {%>
+	if (rs.length == 10) {%>
 	<a href="/eBay/search?q=<%= query %>&numResultsToSkip=<%= numResultsToSkip + 10 %>&numResultsToReturn=10">Next</a>
-	<% }} %>
+	<% } %>
 </body>
 </html>
