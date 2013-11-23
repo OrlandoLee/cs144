@@ -17,8 +17,37 @@
     Bid[] bidArray= item.getBids();
     String[] categoryArray= item.getCategories();
 	%>
+	
+	<script type="text/javascript" 
+	    src="http://maps.google.com/maps/api/js?sensor=false"> 
+	</script> 
+	<script type="text/javascript"> 
+	<!--
+	  function initialize() { 
+		var geocoder = new google.maps.Geocoder();
+	    var latlng = new google.maps.LatLng(34.063509,-118.44541); 
+	    var myOptions = { 
+	      zoom: 1, // default is 8  
+	      center: latlng, 
+	      mapTypeId: google.maps.MapTypeId.ROADMAP 
+	    }; 
+	    var map = new google.maps.Map(document.getElementById("map_canvas"), 
+	        myOptions); 
+		var address = <%=sellerLocation%> + ","+<%=sellerCountry%>//Los Angeles succeeded
+		geocoder.geocode( { 'address': address}, function(results, status) {
+		      if (status == google.maps.GeocoderStatus.OK) {
+		        map.setCenter(results[0].geometry.location);
+				map.setZoom(14);
+		      } else {
+		        map.setZoom(1);
+		      }
+		    });
+	  } 
+	-->
+	</script>
 </head>
-<body>
+<body onload="initialize()"> 
+  <div id="map_canvas" style="width:100%; height:50%"></div> 
 	<form method="Get" ACTION = "./item">
 		<br>
 		itemID:
