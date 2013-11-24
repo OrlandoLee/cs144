@@ -2,6 +2,7 @@ package edu.ucla.cs.cs144;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -17,19 +18,18 @@ public class ProxyServlet extends HttpServlet implements Servlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-	
-        String query = request.getParameter("q");
-		URLConnection connection = new URL("http://google.com/complete/search?output=toolbar&q=" + query).openConnection();
-		BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-		String xml="";
-		String temp="";
-		while((temp = in.readLine()) != null)
-			xml+=temp;
-		in.close();
+        // your codes here
+    	String query = request.getParameter("q");
+    	URL url = new URL("http://google.com/complete/search?output=toolbar&q=" + query);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        int length;
+		byte[] buffer = new byte[2048];
+		while ((length = connection.getInputStream().read(buffer)) > 0)
+        {
+        	response.getOutputStream().write(buffer, 0, length);
+        }
 		response.setContentType("text/xml");
-		PrintWriter out = response.getWriter();
-		out.println(xml);
-	
-		
+		connection.getInputStream().close();
+		response.getOutputStream().close();
     }
 }
