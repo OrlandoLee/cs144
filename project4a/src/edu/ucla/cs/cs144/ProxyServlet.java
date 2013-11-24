@@ -14,6 +14,19 @@ public class ProxyServlet extends HttpServlet implements Servlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-        // your codes here
+	
+        String query = request.getParameter("q");
+		URLConnection connection = new URL("http://google.com/complete/search?output=toolbar&q=" + query).openConnection();
+		//connection.setRequestProperty("Accept-Charset", charset);
+		BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+		String xml;
+		String temp;
+		while((temp = in.readLine()) != null)
+			xml+=temp;
+		in.close();
+		response.setAttribute("result",xml);
+		response.setContentType("text/xml");
+		request.getRequestDispatcher("./suggest.jsp").forward(request, response);
+		
     }
 }
