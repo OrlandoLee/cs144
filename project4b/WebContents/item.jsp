@@ -33,7 +33,7 @@
 	    }; 
 	    var map = new google.maps.Map(document.getElementById("map_canvas"), 
 	        myOptions); 
-		var address = <%=sellerLocation%> + ","+<%=sellerCountry%>//Los Angeles succeeded
+		var address = "<%=sellerLocation%> , <%=sellerCountry%>"//Los Angeles succeeded
 		geocoder.geocode( { 'address': address}, function(results, status) {
 		      if (status == google.maps.GeocoderStatus.OK) {
 		        map.setCenter(results[0].geometry.location);
