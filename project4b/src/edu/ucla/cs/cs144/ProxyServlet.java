@@ -1,12 +1,15 @@
 package edu.ucla.cs.cs144;
 
+import java.io.*;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
+import java.net.URLConnection;
 import java.net.URL;
 
+import javax.servlet.*;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
+import javax.servlet.http.*;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
