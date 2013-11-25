@@ -1,7 +1,12 @@
 <html>
 <head>
+	 <script type="text/javascript" src="autosuggest.js"></script>
+     <script type="text/javascript" src="suggestions.js"></script>
+     <link rel="stylesheet" type="text/css" href="autosuggest.css" />
+
 	<script type="text/javascript">
 	var xmlHttp = new XMLHttpRequest();
+	var suggestions = [];
 	function sendAjaxRequest(input)
 	{
 		var request = "/eBay/suggest?q="+encodeURI(input);
@@ -16,25 +21,31 @@
 			response = xmlHttp.responseXML;
 			response = response.replace(/</g, "&lt;").replace(/>/g,"&gt;");
 			var xmlsuggestions = response.getElementsByTagName("suggestion");	
-			var suggestions = [];
+		    suggestions = [];
 			for (var i=0; i< xmlsuggestions.length; i++)
 				suggestions[i]=xmlsuggestions[i].getAttribute("data");
-			document.getElementById("suggestion").innerHTML = suggestions;
+		//	document.getElementById("suggestion").innerHTML = suggestions;
 		}
 	
 	}
 	</script>
+	
+	 <script type="text/javascript">
+            window.onload = function () {
+                var oTextbox = new AutoSuggestControl(document.getElementById("txt1"), new StateSuggestions(suggestions));        
+            }
+        </script>
 </head>
 <body>
 	<form method="Get" ACTION = "./search">
 		<br>
 		Key word:
-		<input type ="text" onKeyUp = "sendAjaxRequest(this.value);">
+		<input type ="text" id="txt1" onKeyUp = "sendAjaxRequest(this.value);">
 		<input type ="hidden" name="numResultsToSkip" value="0">
 		<br>
 		<input type ="hidden" name="numResultsToReturn" value="10">
 		<input type="submit" name="search">
 	</form>
-	<pre id="suggestion"></pre>
+	
 </body>
 </html>
