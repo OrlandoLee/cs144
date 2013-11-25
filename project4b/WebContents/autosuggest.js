@@ -4,8 +4,7 @@
  * @class
  * @scope public
  */
-function AutoSuggestControl(oTextbox /*:HTMLInputElement*/, 
-                            oProvider /*:SuggestionProvider*/) {
+function AutoSuggestControl(oTextbox /*:HTMLInputElement*/) {
     
     /**
      * The currently selected suggestions.
@@ -18,12 +17,6 @@ function AutoSuggestControl(oTextbox /*:HTMLInputElement*/,
      * @scope private
      */
     this.layer = null;
-    
-    /**
-     * Suggestion provider for the autosuggest feature.
-     * @scope private.
-     */
-    this.provider /*:SuggestionProvider*/ = oProvider;
     
     /**
      * The textbox to capture.
@@ -41,17 +34,11 @@ function AutoSuggestControl(oTextbox /*:HTMLInputElement*/,
  * If no suggestions are passed in, then no autosuggest occurs.
  * @scope private
  * @param aSuggestions An array of suggestion strings.
- * @param bTypeAhead If the control should provide a type ahead suggestion.
  */
-AutoSuggestControl.prototype.autosuggest = function (aSuggestions /*:Array*/,
-                                                     bTypeAhead /*:boolean*/) {
+AutoSuggestControl.prototype.autosuggest = function (aSuggestions /*:Array*/) {
     
     //make sure there's at least one suggestion
-    if (aSuggestions.length > 0) {
-        if (bTypeAhead) {
-           this.typeAhead(aSuggestions[0]);
-        }
-        
+    if (aSuggestions.length > 0) {        
         this.showSuggestions(aSuggestions);
     } else {
         this.hideSuggestions();
@@ -160,16 +147,16 @@ AutoSuggestControl.prototype.handleKeyUp = function (oEvent /*:Event*/) {
 
     var iKeyCode = oEvent.keyCode;
 
-    //for backspace (8) and delete (46), shows suggestions without typeahead
+    //for backspace (8) and delete (46), show suggestions
     if (iKeyCode == 8 || iKeyCode == 46) {
-        this.provider.requestSuggestions(this, false);
+        this.requestSuggestions();
         
     //make sure not to interfere with non-character keys
     } else if (iKeyCode < 32 || (iKeyCode >= 33 && iKeyCode < 46) || (iKeyCode >= 112 && iKeyCode <= 123)) {
         //ignore
     } else {
-        //request suggestions from the suggestion provider with typeahead
-        this.provider.requestSuggestions(this, true);
+        //request suggestions 
+        this.requestSuggestions();
     }
 };
 
@@ -317,20 +304,32 @@ AutoSuggestControl.prototype.showSuggestions = function (aSuggestions /*:Array*/
     this.layer.style.visibility = "visible";
 
 };
+AutoSuggestControl.prototype.requestSuggestions = function ()
+{
+    var searchBoxQuery = this.textbox.value;
+    var request = "/eBay/suggest?q="+encodeURI(searchBoxQuery);
 
-/**
- * Inserts a suggestion into the textbox, highlighting the 
- * suggested part of the text.
- * @scope private
- * @param sSuggestion The suggestion for the textbox.
- */
-AutoSuggestControl.prototype.typeAhead = function (sSuggestion /*:String*/) {
+    xmlHttp = new XMLHttpRequest(); 
+    xmlHttp.onreadystatechange = this.processSuggestions;
+    
+    xmlHttp.open( "GET", request, true );
+    xmlHttp.send( null );
+}
 
-    //check for support of typeahead functionality
-    if (this.textbox.createTextRange || this.textbox.setSelectionRange){
-        var iLen = this.textbox.value.length; 
-        this.textbox.value = sSuggestion; 
-        this.selectRange(iLen, sSuggestion.length);
+AutoSuggestControl.prototype.processSuggestions = function ProcessRequest() 
+{
+    if ( xmlHttp.readyState == 4 && xmlHttp.status == 200 ) 
+    {
+        var XML = xmlHttp.responseXML;
+        //XML = XML.replace(/</g, "&lt;").replace(/>/g,"&gt;");
+        var XMLsuggestions = XML.getElementsByTagName("suggestion");
+        var suggestions = [];
+        for (var i = 0; i < XMLsuggestions.length; i++)
+        {
+            suggestions[i] = XMLsuggestions[i].getAttribute("data");
+        }
+        
+        autoSuggest.autosuggest(suggestions);
     }
-};
+}
 
