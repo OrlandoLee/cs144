@@ -112,8 +112,6 @@ public class ItemServlet extends HttpServlet implements Servlet {
 	//session
 	HttpSession session = request.getSession(true);	
 	session.setAttribute("itemId",itemId);
-	session.setAttribute("name",name);
-	session.setAttribute("buyPrice",buyPrice);
 	//
     	request.setAttribute("item", item);
     	request.getRequestDispatcher("/item.jsp").forward(request, response);

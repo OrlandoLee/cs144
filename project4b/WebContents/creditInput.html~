@@ -1,0 +1,10 @@
+<html>
+<head>
+<%@ page import="java.util.*" %>
+<%@ page import="edu.ucla.cs.cs144.*" %>
+<% session.getAttribute("item"); %>
+</head>
+<body>
+give me your credit card number
+</body>
+</html>
