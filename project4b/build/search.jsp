@@ -1,5 +1,6 @@
 ﻿<html>
 <head>
+<meta name="viewport" content="width=device-width">
 	<%@ page import="edu.ucla.cs.cs144.*" %>
 	<% SearchResult[] rs = (SearchResult[])request.getAttribute("results"); %>
 	<%

@@ -1,5 +1,6 @@
 ﻿<html>
 <head>
+<meta name="viewport" content="width=device-width">
 	<%@ page import="java.util.*" %>
 	<%@ page import="edu.ucla.cs.cs144.*" %>
 	<%Item item = (Item) request.getAttribute("item");
