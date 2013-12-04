@@ -1,6 +1,8 @@
 ﻿<html>
 <head>
 <meta name="viewport" content="width=device-width">
+<link media="only screen and (max-device-width: 480px)" 
+    href="android.css" type="text/css" rel="stylesheet" />
 	<%@ page import="java.util.*" %>
 	<%@ page import="edu.ucla.cs.cs144.*" %>
 	<%Item item = (Item) request.getAttribute("item");
